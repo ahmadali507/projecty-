@@ -7,7 +7,7 @@
 using namespace std;
 
 
-// This is commented just for testing
+// comment updated
 ////////////////////////////////////// STRUCTS DEFINED //////////////////////////////////////
 
 struct Player
