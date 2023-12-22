@@ -22,6 +22,7 @@ using namespace std;
 
 
 // GLOBAL VARIABLES
+bool enemytraverser = false; // creating a varibable to keep teh track of associated powerups. 
 int response;
 int cols = 8;
 int rows = 8;
@@ -51,6 +52,8 @@ struct monster {
 	int health;
 	string name;
 	string status;
+
+	monster(const int& a, const string& b) : health(a), name(b) {}
 };
 struct Player
 {
@@ -74,20 +77,61 @@ struct Question
 	Question(const string& q, const string& a) : question(q), answer(a) {}
 };
 
-Question questions[10] = {
+struct Riddle {
+	string riddle;
+	vector<string> options;
+	char answer;
+
+	Riddle(const string& r, const vector<string>& a, const char& ans) : riddle(r), options(a), answer(ans) {}
+};
+
+
+Riddle easyRiddles[10] = {
+	Riddle("What has keys but can't open locks?", {"A. piano", "B. keyboard", "C. typewriter", "D. computer"}, 'A'),
+	Riddle("What has a head and a tail but no body?", {"A. coin", "B. snake", "C. book", "D. ship"}, 'A'),
+	Riddle("What has one eye but can't see?", {"A. needle", "B. tornado", "C. potato", "D. fish"}, 'A'),
+	Riddle("What is always in front of you but can't be seen?", {"A. The future", "B. The past", "C. The present", "D. Air"}, 'D'),
+	Riddle("I am taken from a mine and shut up in a wooden case, from which I am never released, and yet I am used by almost every person. What am I?", {"A. A pencil", "B. Gold", "C. Coal", "D. A diamond"}, 'A'),
+	Riddle("What comes once in a minute, twice in a moment, but never in a thousand years?", {"A. The letter 'M'", "B. A clock", "C. Laughter", "D. The number 1"},'A'),
+	Riddle("The more you take, the more you leave behind. What am I?", {"A. Footsteps", "B. Memories", "C. Presents", "D. Footprints"}, 'D'),
+	Riddle("What is full of holes but still holds water?", {"A. A sponge", "B. A net", "C. A sieve", "D. A bottle"}, 'A'),
+	Riddle("What has a neck but no head?", {"A. A bottle", "B. A shirt", "C. A snake", "D. A balloon"}, 'B'),
+	Riddle("I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?", {"A. An echo", "B. A thought", "C. A dream", "D. A cloud"}, 'D')
+};
+
+Question questions[20] = {
 	Question("What's the capital of Pakistan", "Islamabad"),
+	Question("What's the capital of France", "Paris"),
 	Question("What's the capital of France", "Paris"),
 	Question("What's the capital of Turkey", "Ankara"),
 	Question("What's the capital of China", "Beijing"),
 	Question("What's the capital of Japan", "Tokyo"),
 	Question("What's the capital of USA", "Washington"),
 	Question("What's the capital of England", "London"),
+	Question("What's the capital of England", "London"),
 	Question("What's the capital of Norway", "Oslo"),
 	Question("What's the capital of Spain", "Madrid"),
-	Question("What's the capital of Portugal", "Lisbon") };
+	Question("What's the capital of Italy", "Room"),
+	Question("What's the capital of India", "Delhi"),
+	Question("What's the capital of Bangladesh", "Dhaka"),
+	Question("What's the capital of Denmark", "Copenhegan"),
+	Question("What's the capital of Canada", "Toronto"),
+	Question("What's the capital of Srilanka", "Columbo"),
+	Question("What's the capital of Saudi Arabia", "Riaz"),
+	Question("What's the capital of Saudi Arabia", "Riaz"),
+	Question("What's the capital of Portugal", "Lisbon")
+};
 Player superman;
-monster battler;
-Enemyy* enemiesArray = new Enemyy[numberOfEnemies];
+monster monsters[6] = {
+	monster(40, "Kazuma"),
+	monster(50, "toughieee"),
+	monster(60, "noyan"),
+	monster(65, "dirtuuuu"),
+    monster(75, "jarasim"),
+	monster(100, "DEADLY DIRT")
+};
+
+Enemyy * enemiesArray = new Enemyy[numberOfEnemies];
 Chest* chestsArray = new Chest[numberOfChests];
 
 
@@ -105,6 +149,29 @@ int chooseOptions(string arr[], int size);
 void playAudio(const char* filePath);
 
 // HELPER
+//string captureConsoleScreen() {
+//	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+//	CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+//	GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
+//
+//	COORD bufferSize = consoleInfo.dwSize;
+//	DWORD cells = bufferSize.X * bufferSize.Y;
+//
+//	CHAR_INFO* buffer = new CHAR_INFO[cells];
+//	COORD bufferCoord = { 0, 0 };
+//	SMALL_RECT readRegion = { 0, 0, bufferSize.X - 1, bufferSize.Y - 1 };
+//
+//	ReadConsoleOutput(hConsole, buffer, bufferSize, bufferCoord, &readRegion);
+//
+//	string screenContent;
+//	for (int i = 0; i < cells; ++i) {
+//		screenContent += static_cast<char>(buffer[i].Char.AsciiChar);
+//	}
+//
+//	delete[] buffer;
+//	return screenContent;
+//}
+
 int getConsoleWidth();
 int getConsoleHeight();
 char getCharacterAtPosition(int x, int y);
@@ -118,7 +185,9 @@ void askQuestions();
 void chestReward();
 void centerText(const string& text);
 string toLowerCase(string answer);
+void askRiddles();
 void printOptions(string arr[], int size, int activeOption);
+void finalBoss();
 
 
 // MODES
@@ -132,22 +201,8 @@ void timetrail();
 void classic();
 void combat(Player* b, monster* a);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int main()
+
 {
 	cout << cols;
 	const char* filePath = "C:/Users/Track Computers/Desktop/track.wav";
@@ -155,8 +210,7 @@ int main()
 
 
 	// making the properties of the struct.
-	battler.name = " kazuma ";
-	battler.health = 60;
+	
 
 	// variable that will determine the input of the user's choice..
 
@@ -211,21 +265,6 @@ int main()
 	else cout << "unable to load file ";
 	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -346,13 +385,70 @@ bool enemyCoordiCorrectness(int x, int y)
 }
 bool chestCoordiCorrectness(int x, int y)
 {
-	return (getCharacterAtPosition(x, y) != (char)219 && getASCIIAtPosition(x, y) !=  -80 );// -80 is for enemies.
-	
+	return (getCharacterAtPosition(x, y) != (char)219 && getASCIIAtPosition(x, y) != -80);// -80 is for enemies.
+
 }
+void askRiddles() {
+
+	srand(time(0));
+	int riddlesLength = size(easyRiddles);
+	moves(70, 7);
+	// randomly choosing the question based on the value given by the rand function . 
+	int index = rand() % riddlesLength;
+	char answer;
+	Riddle easyRiddle = easyRiddles[index];
+
+	moves(40 + rows, 0);
+	cout << "Enemy " << encounteredenemies + 1 << ": Answer this Riddle " << easyRiddle.riddle << endl;
+	moves(40 + rows, 1);
+	for (int i = 0; i < 4; i++)
+	{
+		cout << easyRiddle.options[i] << "  ";
+	}
+	cout << endl << "Your answer: ";
+
+	moves(40 + rows, 2);
+	cin >> answer;
+	answer = tolower(answer);
+	easyRiddle.answer = tolower(easyRiddle.answer);
+
+	// Check the player's answer and affect health accordingly
+	if (answer == easyRiddle.answer)
+	{
+		moves(40 + rows, 3);
+		cout << "Enemy: Correct! You escaped without damage." << endl;
+	}
+	else
+	{
+		moves(40 + rows, 3);
+		cout << "Enemy: Wrong answer! You lost 20 points of health." << endl;
+		superman.health -= 20;
+		// updating the health of the player on the screen without using the system cls function on the console . 
+		// if the health reaches zero then the player loses the game in case of the classic mode , 
+		if (superman.health == 0) {
+			system("cls");
+			cout << "you have lost all of your health." << endl;
+			cout << "your current health is " << superman.health << endl;
+			cout << "your score after completing the game is as follows. " << score << endl;
+			exit(0);
+		}
+		// this will be happening only when we have the classic mode of the game. 
+		if (response == 0) {
+			moves(0, 0);
+			cout << "+=================================+" << endl;
+			cout << "|       Health Bar = " << superman.health << "         |" << endl;
+			cout << "|       current score = " << score << "          |" << endl;
+			cout << "+=================================+" << endl;
+		}
+	}
+
+
+}
+
 void askQuestions()
 {
 	// Ask a question when the player encounters the enemy
-	int qPosY = 1 + encounteredenemies * 6; // for each question, we need 4 lines, so multiplying by 4
+	//int qPosY = 1 + encounteredenemies * 6; // for each question, we need 4 lines, so multiplying by 4
 	srand(time(0));
 	int questionsLength = size(questions);
 	moves(70, 7);
@@ -379,7 +475,7 @@ void askQuestions()
 		{
 			moves(40 + rows, 3);
 			cout << "Enemy: Correct! You escaped without damage." << endl;
-			
+
 		}
 		else
 		{
@@ -404,28 +500,34 @@ void askQuestions()
 				cout << "+=================================+" << endl;
 			}
 		}
-				break;
+		break;
 	}
 }
 void chestReward() {
-	string rewards[4] = { "immune", "score", "health", "!!!!NULL!!!!" };
-	int random = rand() % 4; 
+	//string rewards[4] = { "immune", "score", "health", "!!!!NULL!!!!" };
+	int random = rand() % 4;
 	switch (random) {
-	case 0: 
-		cout << "immune";
+	case 0:
+		system("cls");
+		centerText("YOU HAVE FOUND THE IMMUNE POWER UP .");
+		enemytraverser = true;
 		break;
 	case 1:
-		cout << "score";
+		system("cls");
+		centerText("\x1b[0mYOUR SCORE INCREASES BY 12.\x1b[0m");
+		score += 12;
 		break;
 	case 2:
-		cout << "health";
+		system("cls");
+		centerText("\x1b[0mYOUR SCORE HEALTH IS RESTORED BY 5.\x1b[0m");
+		superman.health += 5;
 		break;
 	case 3:
-		cout << "!!!!NULL!!!!";
+		system("cls");
+		centerText("\x1b[34mYOUR CHEST IS EMPTY PLEASE\x1b[0m");
 		break;
-
-	default: 
-		break; 
+	default:
+		break;
 	}
 }
 void printOptions(string arr[], int size, int activeOption) {
@@ -445,12 +547,6 @@ void printOptions(string arr[], int size, int activeOption) {
 	cout << "+=============================+" << endl;
 
 }
-
-
-
-
-
-
 
 
 
@@ -544,12 +640,6 @@ vector<vector<char>> generateMaze(int rows, int cols)
 
 
 
-
-
-
-
-
-
 // DISPLAY
 void displayChests()
 {
@@ -560,7 +650,7 @@ void displayChests()
 
 	while (true)
 	{   // doing the necessary modifidcations so that the chests do not get out of the maze 
-		for (int i = 0; i < numberOfChests; i ++) {
+		for (int i = 0; i < numberOfChests; i++) {
 			chestsArray[i].x = (5 + (rand() % cols));
 			chestsArray[i].y = (5 + (rand() % cols));
 		}
@@ -657,6 +747,7 @@ int chooseOptions(string arr[], int size) {
 			}
 			else if (arbitrary == 13) { // Enter key to confirm selection
 				return activeOption;
+				break;
 			}
 
 			printOptions(arr, size, activeOption); // Update the displayed options
@@ -669,12 +760,6 @@ void playAudio(const char* filePath) {
 
 
 
-
-
-
-
-
-
 // MODES
 void encounterEnemys(int playerX, int enemyX, int playerY, int enemyY)
 {
@@ -683,16 +768,21 @@ void encounterEnemys(int playerX, int enemyX, int playerY, int enemyY)
 	//if (playerX == enemyX && playerY == enemyY && getCharacterAtPosition(enemyX, enemyY) == '@')
 	if (playerX == enemyX && playerY == enemyY && getASCIIAtPosition(enemyX, enemyY) == -80) //-80 for the enemies.
 	{
+
 		askQuestions();
+		encounteredenemies++;
+	}
+	if (playerX == enemyX && playerY == enemyY && getASCIIAtPosition(enemyX, enemyY) == -80 && levelno > 2) {
+		askRiddles();
 		encounteredenemies++;
 	}
 }
 void encounterChests(int playerX, int chestX, int playerY, int chestY)
 {
-	if (playerX == chestX && playerY == chestY && getCharacterAtPosition(chestX, chestY) == '+') 
+	if (playerX == chestX && playerY == chestY && getCharacterAtPosition(chestX, chestY) == '+')
 	{
-		chestReward();
-	
+		//		chestReward();
+
 	}
 }
 void timer() {
@@ -822,7 +912,11 @@ void movePlayerwithtimer(int x, int y, char c)
 }
 void combat(Player* b, monster* a)
 {
+	centerText("Get ready to Face the wrath of the monster");
+	centerText(a->name);
+	string combatOptions[3] = { "Attack", "Defend", "Special Power" };
 	system("color 0e");
+	// change turn of each 
 	bool turnchanger = true;
 	srand(time(NULL));
 	while (true)
@@ -832,7 +926,9 @@ void combat(Player* b, monster* a)
 		if (b->health <= 0)
 		{
 			system("color 0");
-			centerText("\x1b[31mYou Lose! The monster killed you .\x1b[0m"); cout << endl;
+			centerText("\x1b[31mYou Lose! The monster killed you .\x1b[0m"); cout << endl; 
+			// to make the gameover we use the exit statement. 
+				exit(0); 
 			break;
 		}
 		else if (a->health <= 0)
@@ -850,27 +946,20 @@ void combat(Player* b, monster* a)
 		int monsterresponse;
 		int monsterattack = 0;
 		// asking the user what they want to do and getting their answer.
-		// creating a variable bool to change the turn of the attacks by the monster and the player.
+		// creating a variable bool to change the tufn of the attacks by the monster and the player.
 		if (turnchanger)
 		{
-			cout << "+==========================+" << endl;;
-			cout << "|   Player's turn.         |" << endl;
-			cout << "|   1 ----> attack .       |" << endl;
-			cout << "|   2 ----> defend.        |" << endl;
-			cout << "|   3 ----> special power .|" << endl;
-			cout << "+==========================+";
-			cin >> respons;
-			switch (respons)
+			//chooseOptions(combatOptions, 3);
+			int d = chooseOptions(combatOptions, 3);
+			switch (d)
 			{
-
-			case 1:
+			case 0:
 				attack = rand() % 10;
 				cout << "monster lost " << attack << " amount of health." << endl;
 				a->health -= attack;
-
 				break;
 
-			case 2:
+			case 1:
 				int heal;
 				cout << "you have choosen to defend the attack of the enemy." << endl;
 				heal = 1 + rand() % 3;
@@ -890,7 +979,7 @@ void combat(Player* b, monster* a)
 					b->health -= monsterattack;
 				}
 				break;
-			case 3:
+			case 2:
 				attack = 5 + (rand() % 20);
 				cout << "you have choosen the special attack if executed right, a high damage will be caused to the enemy" << endl;
 				cout << "the damage to the enemy is as follows. " << attack << endl;
@@ -938,6 +1027,8 @@ void combat(Player* b, monster* a)
 
 	}
 }
+// we have made this function to move the player please. 
+
 void movePlayer(int x, int y, char c)
 {
 	// Character representing the player
@@ -945,12 +1036,13 @@ void movePlayer(int x, int y, char c)
 	{
 		moves(x, y);
 		std::cout << c;
-		// using the _kbhit to detect which key is being hit by hte uer. 
+	// using the _kbhit to detect which key is being hit by hte uer. 
 		if (_kbhit())
 		{
 			char key = _getch();
 			moves(x, y);
-			std::cout << ' '; // Clear previous position
+			std::cout << ' '; 
+			// Clear previous position
 
 			int prevX = x;
 
@@ -987,7 +1079,7 @@ void movePlayer(int x, int y, char c)
 				x = prevX;
 				y = prevY;
 			}
-			
+
 			// for checking if there is enemy at this position. 
 			for (int i = 0; i < numberOfEnemies; i++) {
 				encounterEnemys(x, enemiesArray[i].x, y, enemiesArray[i].y);
@@ -999,14 +1091,17 @@ void movePlayer(int x, int y, char c)
 			// introducing the createria for facing a monster.
 			// this feature will only be able if the player is playing the storyline mode 
 
-			if (levelno >= 1) {
-				if (getCharacterAtPosition(x, y) == 'E' && response == 6) {
+			if (levelno >= 1 && levelno < 11) {
+				if (getCharacterAtPosition(x, y) == 'E' && response >= 1) {
+					int e = 0; 
 					system("cls");
 					cout << "\033[4m get ready to face the monster that protects the endway of this path.\033[0m" << endl;
+					monster currentmonster = monsters[e]; 
+					combat(&superman, &currentmonster);
 					Sleep(2000);
 					system("cls");
-					combat(&superman, &battler);
-					battler.health += 10;
+					e++; 
+					
 					break;
 
 				}
@@ -1290,7 +1385,21 @@ void classic()
 
 	}
 }
+void finalBoss() {
 
+	string news;
+	centerText("+========================================+");
+	string warning = " HE HE HOO HOOO HAAA HAAA HAAA  \n   YOU HAVE DONE A GREAT JOB SOO FAR   \n BUT NOW IT IS TIME TO DIE .\n AND THE BATTLE BEGINS";
+	for (char& c : warning) {
+		news += c;
+		Sleep(800);
+		centerText(news);
+	}
+
+	system("cls");
+
+
+}
 
 
 
