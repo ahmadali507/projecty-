@@ -11,7 +11,7 @@
 #include<chrono>
 #include<thread>
 #include<ctime>
-#include"helper.h"
+
 
 using namespace std;
 
@@ -19,6 +19,7 @@ using namespace std;
 #define BOLD "\033[1m"
 #define UNDERLINE "\033[4m"
 #define RESET "\033[0m"
+
 
 // GLOBAL VARIABLES
 int response;
@@ -32,7 +33,7 @@ int levelno = 1;
 int seconds = 30;
 int encounteredenemies = 0;
 int numberOfEnemies = 5;
-int numberOfChests = 1; 
+int numberOfChests = 1;
 string username; // making a global variable to ask for the name of the user. 
 
 struct Wall
@@ -60,9 +61,9 @@ struct Player
 	bool immune;	// if he has, he can bypass enemy
 };
 struct Chest {
-	char character; 
-	int x; 
-	int y; 
+	char character;
+	int x;
+	int y;
 	string reward; // immune, score, health refill, null.
 };
 struct Question
@@ -90,6 +91,7 @@ Enemyy* enemiesArray = new Enemyy[numberOfEnemies];
 Chest* chestsArray = new Chest[numberOfChests];
 
 
+
 // MAZE
 int find(vector<int>& parent, int i);
 void Union(vector<int>& parent, vector<int>& rank, int x, int y);
@@ -103,17 +105,17 @@ int chooseOptions(string arr[], int size);
 void playAudio(const char* filePath);
 
 // HELPER
-//int getConsoleWidth();
-//int getConsoleHeight();
-//char getCharacterAtPosition(int x, int y);
-//int getASCIIAtPosition(int x, int y);
-//void moves(int x, int y);
-//bool isCollisiona(int x, int y);
-//void loadingbar();
-//bool enemyCoordiCorrectness(int x, int y);
-//bool chestCoordiCorrectness(int x, int y);
-//void askQuestions();
-//void chestReward();
+int getConsoleWidth();
+int getConsoleHeight();
+char getCharacterAtPosition(int x, int y);
+int getASCIIAtPosition(int x, int y);
+void moves(int x, int y);
+bool isCollisiona(int x, int y);
+void loadingbar();
+bool enemyCoordiCorrectness(int x, int y);
+bool chestCoordiCorrectness(int x, int y);
+void askQuestions();
+void chestReward();
 void centerText(const string& text);
 string toLowerCase(string answer);
 void printOptions(string arr[], int size, int activeOption);
@@ -229,91 +231,90 @@ int main()
 
 
 // HELPERS
+int getConsoleWidth()
+{
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+	return csbi.dwSize.X;
+}
+int getConsoleHeight() {
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+	return csbi.dwSize.Y;
+}
+char getCharacterAtPosition(int x, int y) {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	if (hConsole == INVALID_HANDLE_VALUE) {
+		std::cerr << "Invalid handle." << std::endl;
+		return '\0';
+	}
 
-//int getConsoleWidth()
-//{
-//	CONSOLE_SCREEN_BUFFER_INFO csbi;
-//	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-//	return csbi.dwSize.X;
-//}
-//int getConsoleHeight() {
-//	CONSOLE_SCREEN_BUFFER_INFO csbi;
-//	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-//	return csbi.dwSize.Y;
-//}
-//char getCharacterAtPosition(int x, int y) {
-//	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-//	if (hConsole == INVALID_HANDLE_VALUE) {
-//		std::cerr << "Invalid handle." << std::endl;
-//		return '\0';
-//	}
-//
-//	COORD coord = { static_cast<SHORT>(x), static_cast<SHORT>(y) };
-//	DWORD charsRead;
-//	char charBuffer;
-//
-//	if (!ReadConsoleOutputCharacterA(hConsole, &charBuffer, 1, coord, &charsRead)) {
-//		std::cerr << "ReadConsoleOutputCharacterA failed." << std::endl;
-//		return '\0';
-//	}
-//
-//	return charBuffer;
-//}
-//int getASCIIAtPosition(int x, int y) {
-//	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-//	if (hConsole == INVALID_HANDLE_VALUE) {
-//		std::cerr << "Invalid handle." << std::endl;
-//		return 0; // Return 0 to indicate an error
-//	}
-//
-//	COORD coord = { static_cast<SHORT>(x), static_cast<SHORT>(y) };
-//	DWORD charsRead;
-//	char charBuffer;
-//
-//	if (!ReadConsoleOutputCharacterA(hConsole, &charBuffer, 1, coord, &charsRead)) {
-//		std::cerr << "ReadConsoleOutputCharacterA failed." << std::endl;
-//		return 0; // Return 0 to indicate an error
-//	}
-//
-//	// Convert the character to ASCII value (cast to int)
-//	int asciiValue = static_cast<int>(charBuffer);
-//	return asciiValue;
-//}
-//void moves(int x, int y)
-//{
-//	// Set console cursor position
-//	COORD coord;
-//	coord.X = x;
-//	coord.Y = y;
-//	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-//}
-//bool isCollisiona(int x, int y)
-//{
-//	// Check for collision with ASCII character 219 or '|'
-//	char charAtPos = getCharacterAtPosition(x, y);
-//	return (charAtPos == (char)219 || charAtPos == '|');
-//}
-//void loadingbar() {
-//	system("color 0e");
-//	system("cls");
-//	printf("\e[?251");
-//
-//	SetConsoleCP(437);
-//	SetConsoleOutputCP(437);
-//	int bar1 = 177, bar2 = 219;
-//
-//	cout << "/n/n/n\t\t\t\t\t\t\t\t\t  Loading.....";
-//	cout << "\n\n\n\t\t\t\t\t\t\t\t\t";
-//	for (int i = 1; i <= 25; i++)
-//		cout << (char)bar1;
-//
-//	cout << "\r";
-//	cout << "\t\t\t\t\t\t\t\t\t";
-//	for (int i = 0; i <= 25; i++) {
-//		cout << (char)bar2;
-//		Sleep(100);
-//	}
-//}
+	COORD coord = { static_cast<SHORT>(x), static_cast<SHORT>(y) };
+	DWORD charsRead;
+	char charBuffer;
+
+	if (!ReadConsoleOutputCharacterA(hConsole, &charBuffer, 1, coord, &charsRead)) {
+		std::cerr << "ReadConsoleOutputCharacterA failed." << std::endl;
+		return '\0';
+	}
+
+	return charBuffer;
+}
+int getASCIIAtPosition(int x, int y) {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	if (hConsole == INVALID_HANDLE_VALUE) {
+		std::cerr << "Invalid handle." << std::endl;
+		return 0; // Return 0 to indicate an error
+	}
+
+	COORD coord = { static_cast<SHORT>(x), static_cast<SHORT>(y) };
+	DWORD charsRead;
+	char charBuffer;
+
+	if (!ReadConsoleOutputCharacterA(hConsole, &charBuffer, 1, coord, &charsRead)) {
+		std::cerr << "ReadConsoleOutputCharacterA failed." << std::endl;
+		return 0; // Return 0 to indicate an error
+	}
+
+	// Convert the character to ASCII value (cast to int)
+	int asciiValue = static_cast<int>(charBuffer);
+	return asciiValue;
+}
+void moves(int x, int y)
+{
+	// Set console cursor position
+	COORD coord;
+	coord.X = x;
+	coord.Y = y;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+bool isCollisiona(int x, int y)
+{
+	// Check for collision with ASCII character 219 or '|'
+	char charAtPos = getCharacterAtPosition(x, y);
+	return (charAtPos == (char)219 || charAtPos == '|');
+}
+void loadingbar() {
+	system("color 0e");
+	system("cls");
+	printf("\e[?251");
+
+	SetConsoleCP(437);
+	SetConsoleOutputCP(437);
+	int bar1 = 177, bar2 = 219;
+
+	cout << "/n/n/n\t\t\t\t\t\t\t\t\t  Loading.....";
+	cout << "\n\n\n\t\t\t\t\t\t\t\t\t";
+	for (int i = 1; i <= 25; i++)
+		cout << (char)bar1;
+
+	cout << "\r";
+	cout << "\t\t\t\t\t\t\t\t\t";
+	for (int i = 0; i <= 25; i++) {
+		cout << (char)bar2;
+		Sleep(100);
+	}
+}
 void centerText(const string& text)
 {
 	int width = getConsoleWidth();
