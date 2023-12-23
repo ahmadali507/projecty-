@@ -42,7 +42,7 @@ int seconds = 30;
 int encounteredenemies = 0;
 int numberOfEnemies = 5;
 int numberOfChests = 1;
-int dialogueBoxWidth = 30;
+int dialogueBoxWidth = 40;
 int dialogueBoxHeight = 2 * mazeCols;
 string username; // making a global variable to ask for the name of the user.
 
@@ -106,7 +106,7 @@ struct Riddle
 	Riddle(const string &r, const vector<string> &a, const char &ans) : riddle(r), options(a), answer(ans) {}
 };
 
-Riddle easyRiddles[10] = {
+Riddle riddles[10] = {
 	Riddle("What has keys but can't open locks?", {"A. piano", "B. keyboard", "C. typewriter", "D. computer"}, 'A'),
 	Riddle("What has a head and a tail but no body?", {"A. coin", "B. snake", "C. book", "D. ship"}, 'A'),
 	Riddle("What has one eye but can't see?", {"A. needle", "B. tornado", "C. potato", "D. fish"}, 'A'),
@@ -140,7 +140,7 @@ Question questions[20] = {
 	Question("What's the capital of Saudi Arabia", "Riaz"),
 	Question("What's the capital of Portugal", "Lisbon")};
 
-Position dialogueBoxStart(90, 0);
+Position dialogueBoxStart(90, 5);
 Player superman(2, 5, 'a', 100, false);
 monster monsters[6] = {
 	monster(40, "Kazuma"),
@@ -169,6 +169,7 @@ int chooseOptions(string arr[], int size);
 
 // HELPER
 void customPrint(int x, int y, int width, const std::string &text);
+void cleanDialogueBox();
 void enableBGText(WORD backgroundColor);
 void disableBGText();
 int getConsoleWidth();
@@ -215,7 +216,7 @@ int main()
 	// superman.player;
 	// superman.health = 100;
 
-	system("color 0e");
+	system("color e0");
 	// centerText("Welcome to the game : MAZE QUEST the enigmatic lybrinth,");
 	// cout << endl;
 	// Sleep(900);
@@ -273,7 +274,18 @@ int main()
 	return 0;
 }
 
-// HELPERS
+// HELPERS]
+void cleanDialogueBox()
+{
+	for (int i = 0; i < dialogueBoxHeight - 2; i++)
+	{
+		gotoxy(dialogueBoxStart.x + 1, dialogueBoxStart.y + 1 + i);
+		for (int i = 0; i < dialogueBoxWidth - 2; i++)
+		{
+			cout << " ";
+		}
+	}
+}
 void customPrint(int x, int y, int width, const std::string &text, int &linesTaken)
 {
 	// Initial position
@@ -389,7 +401,7 @@ bool isCollisiona(int x, int y)
 }
 void loadingbar()
 {
-	system("color 0e");
+	system("color e0");
 	system("cls");
 	printf("\e[?251");
 
@@ -445,99 +457,45 @@ bool chestCoordiCorrectness(int x, int y)
 }
 void askRiddles()
 {
-
-	srand(time(0));
-	int riddlesLength = sizeof(easyRiddles) / sizeof(Riddle);
-	gotoxy(70, 7);
-	// randomly choosing the question based on the value given by the rand function .
-	int index = rand() % riddlesLength;
-	char answer;
-	Riddle easyRiddle = easyRiddles[index];
-
-	gotoxy(40 + mazeRows, 0);
-	cout << "Enemy " << encounteredenemies + 1 << ": Answer this Riddle " << easyRiddle.riddle << endl;
-	gotoxy(40 + mazeRows, 1);
-	for (int i = 0; i < 4; i++)
-	{
-		cout << easyRiddle.options[i] << "  ";
-	}
-	cout << endl
-		 << "Your answer: ";
-
-	gotoxy(40 + mazeRows, 2);
-	cin >> answer;
-	answer = tolower(answer);
-	easyRiddle.answer = tolower(easyRiddle.answer);
-
-	// Check the player's answer and affect health accordingly
-	if (answer == easyRiddle.answer)
-	{
-		gotoxy(40 + mazeRows, 3);
-		cout << "Enemy: Correct! You escaped without damage." << endl;
-	}
-	else
-	{
-		gotoxy(40 + mazeRows, 3);
-		cout << "Enemy: Wrong answer! You lost 20 points of health." << endl;
-		superman.health -= 20;
-		// updating the health of the player on the screen without using the system cls function on the console .
-		// if the health reaches zero then the player loses the game in case of the classic mode ,
-		if (superman.health == 0)
-		{
-			system("cls");
-			cout << "you have lost all of your health." << endl;
-			cout << "your current health is " << superman.health << endl;
-			cout << "your score after completing the game is as follows. " << score << endl;
-			exit(0);
-		}
-		// this will be happening only when we have the classic mode of the game.
-		if (response == 0)
-		{
-			gotoxy(0, 0);
-			cout << "+=================================+" << endl;
-			cout << "|       Health Bar = " << superman.health << "         |" << endl;
-			cout << "|       current score = " << score << "          |" << endl;
-			cout << "+=================================+" << endl;
-		}
-	}
-}
-
-void askQuestions()
-{
 	enableBGText(BACKGROUND_SILVER);
+	cleanDialogueBox();
 	srand(time(0));
 
 	int x = dialogueBoxStart.x + 1; // one for border
 	int y = dialogueBoxStart.y + 2; // one for border, one for heading, then show the text
-	int questionsLength = sizeof(questions) / sizeof(Question);
+	int riddlesLength = sizeof(riddles) / sizeof(Riddle);
 
-	int index = rand() % questionsLength;
-	string answer;
-	Question question = questions[index];
+	int index = rand() % riddlesLength;
+	Riddle riddle = riddles[index];
 
 	gotoxy(x, y); // moving in dialgoue box
-	// cout << "Enemy " << encounteredenemies + 1 << ": Answer this question : " << question.question << endl;
-	string q = "Enemy " + to_string(encounteredenemies + 1) + ": Answer this question : " + question.question;
+	string q = "Enemy " + to_string(encounteredenemies + 1) + ": Answer this riddle : " + riddle.riddle;
 	int linesTaken = 1;
 	customPrint(x, y, dialogueBoxWidth - 2, q, linesTaken);
-	disableBGText();
+	// disableBGText();
+	for (int i = 0; i < 4; i++)
+	{
+		cout << riddle.options[i] << "  ";
+	}
 	gotoxy(x, y + linesTaken + 1);
 	cout << "Your answer: ";
 
+	char answer;
 	gotoxy(x, y + linesTaken + 2);
 	cin >> answer;
-	answer = toLowerCase(answer);
-	question.answer = toLowerCase(question.answer);
 
 	// Check the player's answer and affect health accordingly
+	cleanDialogueBox();
 	gotoxy(x, y + linesTaken + 3);
-	if (answer == question.answer)
+	if (tolower(answer) == tolower(riddle.answer))
 	{
-		cout << "Enemy: Correct! You escaped without damage." << endl;
+		string str = "Enemy: Correct! You escaped without damage.";
+		customPrint(x, y, dialogueBoxWidth - 2, str, linesTaken);
 	}
 	else
 	{
-		customPrint(x, y, dialogueBoxWidth - 2, "Enemy: Wrong answer! You lost 20 points of health.", linesTaken);
+		string str = "Enemy: Wrong answer! You lost 20 points of health.";
+		customPrint(x, y, dialogueBoxWidth - 2, str, linesTaken);
 		superman.health -= 20;
 		if (superman.health == 0)
 		{
@@ -558,29 +516,91 @@ void askQuestions()
 		}
 	}
 }
+
+void askQuestions()
+{
+	enableBGText(BACKGROUND_SILVER);
+	cleanDialogueBox();
+	srand(time(0));
+
+	int x = dialogueBoxStart.x + 1; // one for border
+	int y = dialogueBoxStart.y + 2; // one for border, one for heading, then show the text
+	int questionsLength = sizeof(questions) / sizeof(Question);
+
+	int index = rand() % questionsLength;
+	string answer;
+	Question question = questions[index];
+
+	gotoxy(x, y); // moving in dialgoue box
+	string q = "Enemy " + to_string(encounteredenemies + 1) + ": Answer this question : " + question.question;
+	int linesTaken = 1;
+	customPrint(x, y, dialogueBoxWidth - 2, q, linesTaken);
+	// disableBGText();
+	gotoxy(x, y + linesTaken + 1);
+	cout << "Your answer: ";
+
+	gotoxy(x, y + linesTaken + 2);
+	cin >> answer;
+
+	// Check the player's answer and affect health accordingly
+	cleanDialogueBox();
+	gotoxy(x, y + linesTaken + 3);
+	if (toLowerCase(answer) == toLowerCase(question.answer))
+	{
+		string str = "Enemy: Correct! You escaped without damage.";
+		customPrint(x, y, dialogueBoxWidth - 2, str, linesTaken);
+	}
+	else
+	{
+		string str = "Enemy: Wrong answer! You lost 20 points of health.";
+		customPrint(x, y, dialogueBoxWidth - 2, str, linesTaken);
+		superman.health -= 20;
+		if (superman.health == 0)
+		{
+			system("cls");
+			cout << "You have lost all of your health." << endl;
+			cout << "Your health :" << superman.health << endl;
+			cout << "Your score :" << score << endl;
+			exit(0);
+		}
+		// This will be happening only when we have the classic mode of the game.
+		if (response == 0)
+		{
+			gotoxy(0, 0);
+			cout << "+=================================+" << endl;
+			cout << "|       Health Bar = " << superman.health << "          |" << endl;
+			cout << "|       current score = " << score << "          |" << endl;
+			cout << "+=================================+" << endl;
+		}
+	}
+}
+
 void chestReward()
 {
-	int x = dialogueBoxStart.x;
+	enableBGText(BACKGROUND_SILVER);
+	cleanDialogueBox();
+
+	int x = dialogueBoxStart.x + 1;
 	int y = dialogueBoxStart.y + 2; // one for border, one for heading, then show the text
 	int random = rand() % 4;
 	gotoxy(x, y);
-	disableBGText(); // To remove the black background, uncomment to check what get change (on encountering chest)
 	switch (random)
 	{
-	case 0:
+	case 0: // 	IMMUNE
 		cout << "YOU HAVE FOUND THE IMMUNE POWER UP .";
+		superman.immune = true;
 		enemytraverser = true;
 		break;
-	case 1:
-		cout << "\x1b[0mYOUR SCORE INCREASES BY 12.\x1b[0m";
+	case 1: // 	SCORE
+		cout << "YOUR SCORE INCREASES BY 12.";
 		score += 12;
 		break;
-	case 2:
-		cout << "\x1b[0mYOUR SCORE HEALTH IS RESTORED BY 5.\x1b[0m";
+	case 2: //	HEALTH
+		cout << "YOUR SCORE HEALTH IS RESTORED BY 5.";
 		superman.health += 5;
 		break;
 	case 3:
-		cout << "\x1b[34mYOUR CHEST IS EMPTY PLEASE\x1b[0m";
+		cout << "YOUR CHEST IS EMPTY PLEASE";
 		break;
 	default:
 		break;
@@ -710,18 +730,14 @@ void displayChests()
 		bool isEncounter = false;
 		// checking enemy correctness
 		for (int i = 0; i < numberOfChests; i++)
-		{
 			if (chestCoordiCorrectness(chestsArray[i].x, chestsArray[i].y))
 			{
 				isEncounter = true;
 				break;
 			}
-		}
 
 		if (isEncounter)
-		{
 			break;
-		}
 	}
 
 	for (int i = 0; i < numberOfChests; i++)
@@ -766,10 +782,7 @@ void displayDialogueBox()
 void displayEnemies()
 {
 	for (int i = 0; i < numberOfEnemies; i++)
-	{
-		// enemiesArray[i].enemy = '@';
 		enemiesArray[i].enemy = 176;
-	}
 
 	srand(static_cast<unsigned int>(time(0)));
 
@@ -807,7 +820,6 @@ void displayEnemies()
 	}
 }
 void displayMaze(const vector<vector<char>> &maze)
-
 {
 	for (const auto &row : maze)
 	{
@@ -819,7 +831,7 @@ void displayMaze(const vector<vector<char>> &maze)
 	}
 	displayEnemies();
 	displayChests();
-	gotoxy(20, 20);
+	// gotoxy(20, 20);
 }
 void displayGame(const vector<vector<char>> &maze)
 {
@@ -864,17 +876,18 @@ int chooseOptions(string arr[], int size)
 // MODES
 void encounterEnemy(int playerX, int enemyX, int playerY, int enemyY)
 {
+	if (superman.immune)
+		return;
 	// Check if the player encounters the enemy
 	if (playerX == enemyX && playerY == enemyY && getASCIIAtPosition(enemyX, enemyY) == -80) //-80 for the enemy.
 	{
 		askQuestions();
-		encounteredenemies++;
 	}
 	if (playerX == enemyX && playerY == enemyY && getASCIIAtPosition(enemyX, enemyY) == -80 && levelno > 2)
 	{
 		askRiddles();
-		encounteredenemies++;
 	}
+	encounteredenemies++;
 }
 void encounterChest(int playerX, int chestX, int playerY, int chestY)
 {
@@ -1012,7 +1025,7 @@ void combat(Player *b, monster *a)
 	cout << endl;
 	Sleep(5000);
 	string combatOptions[3] = {"Attack", "Defend", "Special Power"};
-	system("color 0e");
+	system("color e0");
 	// change turn of each
 	bool turnchanger = true;
 	srand(time(NULL));
@@ -1132,6 +1145,7 @@ void combat(Player *b, monster *a)
 
 void movePlayer(int x, int y, char c)
 {
+	enableBGText(BACKGROUND_SILVER);
 	// Character representing the player
 	while (true)
 	{
@@ -1192,7 +1206,7 @@ void movePlayer(int x, int y, char c)
 			// introducing the createria for facing a monster.
 			// this feature will only be able if the player is playing the storyline mode
 
-			if (levelno >= 1 && levelno < 11)
+			if (levelno >= 6 && levelno < 11)
 			{
 				if (getCharacterAtPosition(x, y) == 'E' && response >= 1)
 				{
@@ -1235,7 +1249,7 @@ void storyline()
 	// cin >> superman.player;
 
 	system("cls");
-	system("color E0");
+	system("color e0");
 	// cout << "\nThis story is about a lost survivor who has lost himself in the forest. " << endl;
 	// cout << "in order to reach out of the forest he has to pass through different mazes." << endl;
 	// cout << "If he succesfully cleares all the mazes, then he finds himself out of the maze. " << endl;
@@ -1263,6 +1277,7 @@ void storyline()
 		}
 		else if (levelno == 2)
 		{
+			system("color d0");
 			numberOfEnemies = 5;
 			system("cls");
 			cout << "Welcome to the level 2.  << ENTERING THE JUNGLE >>" << endl;
@@ -1278,6 +1293,7 @@ void storyline()
 		}
 		else if (levelno == 3)
 		{
+			system("color c0");
 			numberOfEnemies = 7;
 			system("cls");
 			cout << "Welcome to the level 3. << JUNGLE SURVIVAL >>" << endl;
@@ -1293,6 +1309,7 @@ void storyline()
 		}
 		else if (levelno == 4)
 		{
+			system("color b0");
 			numberOfEnemies = 9;
 			system("cls");
 			cout << "Welcome to the level 4. << REACHING THE RIVER >> " << endl;
@@ -1308,6 +1325,7 @@ void storyline()
 		}
 		else if (levelno == 5)
 		{
+			system("color a0");
 			numberOfEnemies = 11;
 			system("cls");
 			cout << "Welcome to the level 5. <<  ENTERING THE DUNGEON   >>" << endl;
@@ -1323,6 +1341,7 @@ void storyline()
 		}
 		else if (levelno == 6)
 		{
+			system("color 90");
 			numberOfEnemies = 13;
 			system("cls");
 			cout << "Welcome to the level 6. <<    The DUNGEON PART 2     >>" << endl;
@@ -1338,6 +1357,7 @@ void storyline()
 		}
 		else if (levelno == 7)
 		{
+			system("color 80");
 			numberOfEnemies = 15;
 			system("cls");
 			cout << "Welcome to the level 7. <<    DEATH VALLEY   >> " << endl;
@@ -1353,6 +1373,7 @@ void storyline()
 		}
 		else if (levelno == 8)
 		{
+			system("color 70");
 			numberOfEnemies = 17;
 			system("cls");
 			cout << "welcome to the level 8, <<   DEATH BRIDGE    >> " << endl;
@@ -1368,6 +1389,7 @@ void storyline()
 		}
 		else if (levelno == 9)
 		{
+			system("color 60");
 			numberOfEnemies = 19;
 			system("cls");
 			cout << "welcome to the level 9 , <<   DEAD END    >> " << endl;
@@ -1383,6 +1405,7 @@ void storyline()
 		}
 		else if (levelno == 10)
 		{
+			system("color 50");
 			numberOfEnemies = 21;
 			system("cls");
 			cout << "Welcome to the level 10 , <<    PATH TO THE EARTH   >>" << endl;
