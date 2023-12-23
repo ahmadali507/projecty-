@@ -39,7 +39,7 @@ int score = 0;
 int timelimit = 30;
 int levelno = 1;
 int seconds = 30;
-int encounteredenemies = 0;
+int encounteredEnemies = 0;
 int numberOfEnemies = 5;
 int numberOfChests = 1;
 int dialogueBoxWidth = 40;
@@ -141,7 +141,8 @@ Question questions[20] = {
 	Question("What's the capital of Portugal", "Lisbon")};
 
 Position dialogueBoxStart(90, 5);
-Player superman(2, 5, 'a', 100, false);
+Position mazeStart(5, 5);
+Player superman(mazeStart.x + 1, mazeStart.y + 1, 'a', 100, false);
 monster monsters[6] = {
 	monster(40, "Kazuma"),
 	monster(50, "toughieee"),
@@ -243,18 +244,16 @@ int main()
 	// cout << username << endl;
 
 	// cin >> response;
-	string optionss[3] = {"Classic", "Storyline", "Timetrial"};
-	response = chooseOptions(optionss, 3);
+	string modeOptions[3] = {"Classic", "Storyline", "Timetrial"};
+	response = chooseOptions(modeOptions, 3);
 	switch (response)
 	{
 	case 0:
 	{
-
 		classic();
 		break;
 	}
 	case 1:
-
 		storyline();
 		break;
 	case 2:
@@ -407,19 +406,32 @@ void loadingbar()
 
 	SetConsoleCP(437);
 	SetConsoleOutputCP(437);
+
 	int bar1 = 177, bar2 = 219;
 
-	cout << "/n/n/n\t\t\t\t\t\t\t\t\t  Loading.....";
+	cout << "\n\n\n\t\t\t\t\t\t\t\t\t  Loading...";
 	cout << "\n\n\n\t\t\t\t\t\t\t\t\t";
+
 	for (int i = 1; i <= 25; i++)
 		cout << (char)bar1;
 
-	cout << "\r";
-	cout << "\t\t\t\t\t\t\t\t\t";
+	cout << "\r\t\t\t\t\t\t\t\t\t";
+
 	for (int i = 0; i <= 25; i++)
 	{
+		if (_kbhit())
+		{
+			char key = _getch();
+			if (key == '\t')
+			{
+				// Skip loading if Tab key is pressed
+				cout << "\n\t\t\t\t\t\t\t\t\tLoading skipped by user.\n";
+				return;
+			}
+		}
+
 		cout << (char)bar2;
-		Sleep(100);
+		Sleep(50);
 	}
 }
 void centerText(const string &text)
@@ -457,8 +469,8 @@ bool chestCoordiCorrectness(int x, int y)
 }
 void askRiddles()
 {
-	enableBGText(BACKGROUND_SILVER);
 	cleanDialogueBox();
+	enableBGText(BACKGROUND_SILVER);
 	srand(time(0));
 
 	int x = dialogueBoxStart.x + 1; // one for border
@@ -469,24 +481,24 @@ void askRiddles()
 	Riddle riddle = riddles[index];
 
 	gotoxy(x, y); // moving in dialgoue box
-	string q = "Enemy " + to_string(encounteredenemies + 1) + ": Answer this riddle : " + riddle.riddle;
-	int linesTaken = 1;
+	string q = "Enemy " + to_string(encounteredEnemies + 1) + ": Answer this riddle : " + riddle.riddle;
+	int linesTaken = 1; // these are number of extra lines to be taken
 	customPrint(x, y, dialogueBoxWidth - 2, q, linesTaken);
-	// disableBGText();
+
 	for (int i = 0; i < 4; i++)
 	{
-		cout << riddle.options[i] << "  ";
+		customPrint(x, y + linesTaken + 1 + i, dialogueBoxWidth - 2, riddle.options[i], linesTaken);
 	}
-	gotoxy(x, y + linesTaken + 1);
+	gotoxy(x, y + linesTaken + 5); // after 4 options
 	cout << "Your answer: ";
 
 	char answer;
-	gotoxy(x, y + linesTaken + 2);
+	gotoxy(x, y + linesTaken + 6); // after 4 options and 1 'Your answer'
 	cin >> answer;
 
 	// Check the player's answer and affect health accordingly
 	cleanDialogueBox();
-	gotoxy(x, y + linesTaken + 3);
+	gotoxy(x, y + linesTaken + 7);
 	if (tolower(answer) == tolower(riddle.answer))
 	{
 		string str = "Enemy: Correct! You escaped without damage.";
@@ -519,8 +531,8 @@ void askRiddles()
 
 void askQuestions()
 {
-	enableBGText(BACKGROUND_SILVER);
 	cleanDialogueBox();
+	enableBGText(BACKGROUND_SILVER);
 	srand(time(0));
 
 	int x = dialogueBoxStart.x + 1; // one for border
@@ -532,10 +544,10 @@ void askQuestions()
 	Question question = questions[index];
 
 	gotoxy(x, y); // moving in dialgoue box
-	string q = "Enemy " + to_string(encounteredenemies + 1) + ": Answer this question : " + question.question;
+	string q = "Enemy " + to_string(encounteredEnemies + 1) + ": Answer this question : " + question.question;
 	int linesTaken = 1;
 	customPrint(x, y, dialogueBoxWidth - 2, q, linesTaken);
-	// disableBGText();
+
 	gotoxy(x, y + linesTaken + 1);
 	cout << "Your answer: ";
 
@@ -752,26 +764,29 @@ void displayDialogueBox()
 	gotoxy(dialogueBoxStart.x, dialogueBoxStart.y);
 
 	// Draw the top border
-	char asciiCharacter = 227;
+	char topAciiCharacter = 203;
 	for (int i = 0; i < dialogueBoxWidth; i++)
 	{
-		std::cout << asciiCharacter;
+		std::cout << topAciiCharacter;
 	}
 
 	// Draw the sides
+	char leftAciiCharacter = 204;
+	char rightAciiCharacter = 185;
 	for (int i = 1; i < dialogueBoxHeight - 1; i++)
 	{
 		gotoxy(dialogueBoxStart.x, dialogueBoxStart.y + i);
-		std::cout << "|";
+		std::cout << leftAciiCharacter;
 		gotoxy(dialogueBoxStart.x + dialogueBoxWidth - 1, dialogueBoxStart.y + i);
-		std::cout << "|";
+		std::cout << rightAciiCharacter;
 	}
 
 	// Draw the bottom border
+	char bottomAciiCharacter = 202;
 	gotoxy(dialogueBoxStart.x, dialogueBoxStart.y + dialogueBoxHeight - 1);
 	for (int i = 0; i < dialogueBoxWidth; i++)
 	{
-		std::cout << asciiCharacter;
+		std::cout << bottomAciiCharacter;
 	}
 
 	string dialogue = "-----Dialogue Box-----";
@@ -821,17 +836,19 @@ void displayEnemies()
 }
 void displayMaze(const vector<vector<char>> &maze)
 {
+	int i = 0;
 	for (const auto &row : maze)
 	{
+		gotoxy(mazeStart.x, mazeStart.y + i);
 		for (char cell : row)
 		{
 			cout << cell << "";
 		}
 		cout << " " << endl;
+		i++;
 	}
 	displayEnemies();
 	displayChests();
-	// gotoxy(20, 20);
 }
 void displayGame(const vector<vector<char>> &maze)
 {
@@ -877,17 +894,20 @@ int chooseOptions(string arr[], int size)
 void encounterEnemy(int playerX, int enemyX, int playerY, int enemyY)
 {
 	if (superman.immune)
+	{
+		superman.immune = false;
 		return;
+	}
 	// Check if the player encounters the enemy
 	if (playerX == enemyX && playerY == enemyY && getASCIIAtPosition(enemyX, enemyY) == -80) //-80 for the enemy.
 	{
-		askQuestions();
+		askRiddles();
 	}
 	if (playerX == enemyX && playerY == enemyY && getASCIIAtPosition(enemyX, enemyY) == -80 && levelno > 2)
 	{
-		askRiddles();
+		askQuestions();
 	}
-	encounteredenemies++;
+	encounteredEnemies++;
 }
 void encounterChest(int playerX, int chestX, int playerY, int chestY)
 {
@@ -1041,7 +1061,6 @@ void combat(Player *b, monster *a)
 
 		if (b->health <= 0)
 		{
-			system("color 0");
 			centerText("\x1b[31mYou Lose! The monster killed you .\x1b[0m");
 			cout << endl;
 			// to make the gameover we use the exit statement.
@@ -1262,9 +1281,8 @@ void storyline()
 		if (levelno == 1)
 		{
 			numberOfEnemies = 3;
-			cout << "Welcome to level 1. <<The MONSTEROUS HUT>>" << endl;
-			cout << "escape the hut without losing the health.";
-			cout << "AND the game begins , GOOD LUCK ";
+			centerText("Welcome to level 1.");
+			centerText("<<The MONSTEROUS HUT>>");
 			gotoxy(0, 4);
 			vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
 			displayGame(maze);
@@ -1504,8 +1522,7 @@ void classic()
 	{
 		// clearing the screen every time the playerr wins the game.
 		system("cls");
-		system("color F0");
-		Sleep(900);
+ 		Sleep(900);
 		gotoxy(0, 0);
 		cout << "+=================================+" << endl;
 		cout << "|       Health Bar = " << superman.health << "         |" << endl;
