@@ -22,6 +22,8 @@ using namespace std;
 
 
 // GLOBAL VARIABLES
+int e = 0;
+// e to check the monster that is selected in the level of the game. 
 bool enemytraverser = false; // creating a varibable to keep teh track of associated powerups. 
 int response;
 int cols = 8;
@@ -912,8 +914,9 @@ void movePlayerwithtimer(int x, int y, char c)
 }
 void combat(Player* b, monster* a)
 {
-	centerText("Get ready to Face the wrath of the monster");
-	centerText(a->name);
+	centerText("Get ready to Face the wrath of the monster");  cout << endl;
+	centerText(a->name); cout << endl;
+	Sleep(5000);
 	string combatOptions[3] = { "Attack", "Defend", "Special Power" };
 	system("color 0e");
 	// change turn of each 
@@ -921,7 +924,13 @@ void combat(Player* b, monster* a)
 	srand(time(NULL));
 	while (true)
 	{
+		system("cls");
+		cout << "\033[31m+==========================+\033[0m" << endl;
+		cout << "| Monster's Health  = " << a->health << "   |" << endl;
+		cout << "| Player's  Health  = " << b->health << "   |" << endl;
+		cout << "\033[31m+==========================+\033[0m" << endl;
 		// clearing the screen everytime to show the newstats.
+		Sleep(2000);
 
 		if (b->health <= 0)
 		{
@@ -936,10 +945,7 @@ void combat(Player* b, monster* a)
 			centerText("You won the battle. You have killed the monster. \n  Now you pass to the next level. Beware of the future dangers "); cout << endl;
 			break;
 		}
-		cout << "\033[31m+==========================+\033[0m" << endl;
-		cout << "| Monster's Health  = " << a->health << "   |" << endl;
-		cout << "| Player's  Health  = " << b->health << "   |" << endl;
-		cout << "\033[31m+==========================+\033[0m" << endl;
+		
 		// creating the variables for the task of performing the choices.
 		int respons;
 		int attack;
@@ -1093,9 +1099,9 @@ void movePlayer(int x, int y, char c)
 
 			if (levelno >= 1 && levelno < 11) {
 				if (getCharacterAtPosition(x, y) == 'E' && response >= 1) {
-					int e = 0; 
 					system("cls");
-					cout << "\033[4m get ready to face the monster that protects the endway of this path.\033[0m" << endl;
+					centerText(" get ready to face the monster that protects the endway of this path."); \
+						cout << endl;
 					monster currentmonster = monsters[e]; 
 					combat(&superman, &currentmonster);
 					Sleep(2000);
