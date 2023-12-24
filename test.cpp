@@ -1527,7 +1527,7 @@ void classic()
 }
 void finalBoss()
 {
-
+  
 	string news;
 	centerText("+========================================+");
 	string warning = " HE HE HOO HOOO HAAA HAAA HAAA  \n   YOU HAVE DONE A GREAT JOB SOO FAR   \n BUT NOW IT IS TIME TO DIE .\n AND THE BATTLE BEGINS";
