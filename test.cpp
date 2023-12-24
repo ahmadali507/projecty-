@@ -898,11 +898,11 @@ void encounterEnemy(int playerX, int enemyX, int playerY, int enemyY)
 	// Check if the player encounters the enemy
 	if (playerX == enemyX && playerY == enemyY && getASCIIAtPosition(enemyX, enemyY) == -80) //-80 for the enemy.
 	{
-		askRiddles();
+		askQuestions();
 	}
 	if (playerX == enemyX && playerY == enemyY && getASCIIAtPosition(enemyX, enemyY) == -80 && levelno > 2)
 	{
-		askQuestions();
+		askRiddles();
 	}
 	encounteredEnemies++;
 }
