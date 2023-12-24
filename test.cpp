@@ -313,10 +313,7 @@ void customPrint(int x, int y, int width, const std::string &text, int &linesTak
 }
 void enableBGText(WORD backgroundColor)
 {
-	// Get the handle to the console
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
-	// Set the background color flag
 	SetConsoleTextAttribute(hConsole, backgroundColor);
 }
 
@@ -1257,8 +1254,6 @@ void movePlayer(int x, int y, char c)
 }
 void storyline()
 {
-	superman.x = 2;
-	superman.y = 5;
 
 	// system("cls");
 	// loadingbar();
@@ -1522,7 +1517,7 @@ void classic()
 	{
 		// clearing the screen every time the playerr wins the game.
 		system("cls");
- 		Sleep(900);
+		Sleep(900);
 		gotoxy(0, 0);
 		cout << "+=================================+" << endl;
 		cout << "|       Health Bar = " << superman.health << "         |" << endl;
