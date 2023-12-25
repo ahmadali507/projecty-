@@ -10,6 +10,12 @@ void gotoxy(int x, int y)
     coord.Y = y;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
+void changeSystemColor(string bg = theme.background, string fg = theme.foreground)
+{
+    string command = "color " + bg + fg;
+    const char *commandCStr = command.c_str();
+    system(commandCStr);
+}
 void cleanDialogueBox()
 {
     for (int i = 0; i < dialogueBoxHeight - 2; i++)
@@ -56,7 +62,8 @@ void disableBGText()
 {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
-    system("color e0");
+
+    changeSystemColor(theme.background, theme.foreground);
 }
 int getConsoleWidth()
 {
@@ -116,7 +123,7 @@ int getASCIIAtPosition(int x, int y)
 }
 void loadingbar()
 {
-    system("color e0");
+    // system("color e0");
     system("cls");
     printf("\e[?251");
 
@@ -180,3 +187,34 @@ string toLowerCase(string answer)
 // {
 // 	PlaySound(TEXT("C:/Users/Track Computers/Desktop/track.wav"), NULL, SND_FILENAME | SND_ASYNC);
 // }
+
+void cursorPosition(int x, int y)
+{
+    COORD coordinates;
+    coordinates.X = x;
+    coordinates.Y = y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coordinates);
+}
+void loadingScreen()
+{
+    cout << setw(115) << "______ _   _ _____    ____ _____ ____ _   _ _____    _____ _____ _____ _____ _____ _____" << endl;
+    cout << setw(115) << "  |    |   | |       |   | |   | |    |   | |        |     |     |   | |   | |   | |    " << endl;
+    cout << setw(115) << "  |    |   | |       |   | |   | | -| |   | |        |     |     |     |   | |   | |    " << endl;
+    cout << setw(115) << "  |    |___| |____   |___| |   | |__| |   | |____    |____ |___| |     |___| |___| |____" << endl;
+    cout << setw(115) << "  |    |   | |       |\\    |   |    | |   | |        |         | |     |   | |     |    " << endl;
+    cout << setw(115) << "  |    |   | |       | \\   |   |    | |   | |        |         | |   | |   | |     |    " << endl;
+    cout << setw(115) << "  |    |   | |____   |  \\  |___|    | |___| |____    |____ ____| |___| |   | |     |____" << endl;
+    cout << endl
+         << endl;
+    cout << setw(60) << "Loading... ";
+    for (int i = 0; i < 22; i++)
+    {
+        cout << char(177);
+    }
+    for (int i = 0; i < 22; i++)
+    {
+        cursorPosition(60 + i, 11);
+        Sleep(250);
+        cout << char(178);
+    }
+}

@@ -134,7 +134,7 @@ void combat(Player *b, Monster *a)
     cout << endl;
     Sleep(5000);
     string combatOptions[3] = {"Attack", "Defend", "Special Power"};
-    system("color e0");
+    // system("color e0");
     // change turn of each
     bool turnchanger = true;
     srand(time(NULL));
@@ -353,7 +353,8 @@ void storyline()
     // cin >> superman.player;
 
     system("cls");
-    system("color e0");
+
+    // system("color e0");
     // cout << "\nThis story is about a lost survivor who has lost himself in the forest. " << endl;
     // cout << "in order to reach out of the forest he has to pass through different mazes." << endl;
     // cout << "If he succesfully cleares all the mazes, then he finds himself out of the maze. " << endl;
@@ -365,6 +366,7 @@ void storyline()
 
         if (levelno == 1)
         {
+            changeSystemColor();
             numberOfEnemies = 3;
             centerText("Welcome to level 1.");
             centerText("The MONSTEROUS HUT");
@@ -380,11 +382,12 @@ void storyline()
         }
         else if (levelno == 2)
         {
-            system("color d0");
+            changeSystemColor();
+            // system("color d0");
             numberOfEnemies = 5;
             system("cls");
             centerText("Welcome to level 2.");
-            centerText("ENTERING THE JUNGLE"); 
+            centerText("ENTERING THE JUNGLE");
             gotoxy(0, 4);
             vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
             displayGame(maze);
@@ -395,11 +398,12 @@ void storyline()
         }
         else if (levelno == 3)
         {
-            system("color c0");
+            changeSystemColor();
+            // system("color c0");
             numberOfEnemies = 7;
             system("cls");
             centerText("Welcome to level 3.");
-            centerText("JUNGLE SURVIVAL"); 
+            centerText("JUNGLE SURVIVAL");
             gotoxy(0, 4);
             vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
             displayGame(maze);
@@ -410,11 +414,12 @@ void storyline()
         }
         else if (levelno == 4)
         {
-            system("color b0");
+            changeSystemColor();
+            // system("color b0");
             numberOfEnemies = 9;
             system("cls");
             centerText("Welcome to level 4.");
-            centerText("REACHING THE RIVER"); 
+            centerText("REACHING THE RIVER");
             gotoxy(0, 4);
             vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
             displayGame(maze);
@@ -425,11 +430,12 @@ void storyline()
         }
         else if (levelno == 5)
         {
-            system("color a0");
+            changeSystemColor();
+            // system("color a0");
             numberOfEnemies = 11;
             system("cls");
             centerText("Welcome to level 5.");
-            centerText("ENTERING THE DUNGEON"); 
+            centerText("ENTERING THE DUNGEON");
             gotoxy(0, 4);
             vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
             displayGame(maze);
@@ -440,11 +446,12 @@ void storyline()
         }
         else if (levelno == 6)
         {
-            system("color 90");
+            changeSystemColor();
+            // system("color 90");
             numberOfEnemies = 13;
             system("cls");
             centerText("Welcome to level 6.");
-            centerText("The DUNGEON PART 2"); 
+            centerText("The DUNGEON PART 2");
             gotoxy(0, 4);
             vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
             displayGame(maze);
@@ -455,11 +462,12 @@ void storyline()
         }
         else if (levelno == 7)
         {
-            system("color 80");
+            changeSystemColor();
+            // system("color 80");
             numberOfEnemies = 15;
             system("cls");
             centerText("Welcome to level 7.");
-            centerText("DEATH VALLEY"); 
+            centerText("DEATH VALLEY");
             gotoxy(0, 4);
             vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
             displayGame(maze);
@@ -470,11 +478,12 @@ void storyline()
         }
         else if (levelno == 8)
         {
-            system("color 70");
+            changeSystemColor();
+            // system("color 70");
             numberOfEnemies = 17;
             system("cls");
             centerText("Welcome to level 8.");
-            centerText("DEATH BRIDGE"); 
+            centerText("DEATH BRIDGE");
             gotoxy(0, 4);
             vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
             displayGame(maze);
@@ -485,11 +494,12 @@ void storyline()
         }
         else if (levelno == 9)
         {
-            system("color 60");
+            changeSystemColor();
+            // system("color 60");
             numberOfEnemies = 19;
             system("cls");
             centerText("Welcome to level 9.");
-            centerText("DEAD END"); 
+            centerText("DEAD END");
             gotoxy(0, 4);
             vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
             displayGame(maze);
@@ -500,11 +510,12 @@ void storyline()
         }
         else if (levelno == 10)
         {
-            system("color 50");
+            changeSystemColor();
+            // system("color 50");
             numberOfEnemies = 21;
             system("cls");
             centerText("Welcome to level 10.");
-            centerText("PATH TO THE EARTH"); 
+            centerText("PATH TO THE EARTH");
             gotoxy(0, 4);
             vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
             displayGame(maze);
@@ -526,7 +537,7 @@ void timetrail()
     system("cls");
     loadingbar();
     system("cls");
-    system("color E0");
+    // system("color E0");
     // giving the user the introduction when he enters the maze game.
     cout << "Welcone to the time trial." << endl;
     cout << "Here you will be given specific time to solve the maze " << endl;
@@ -576,7 +587,7 @@ void classic()
     centerText("+=========================================================================+");
     cout << endl;
     Sleep(9000);
-    system("color e0");
+    // system("color e0");
     system("cls");
     // asking the user to enter the character with which he wants to play the game.
     cout << "+=================================+" << endl;
