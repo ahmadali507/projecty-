@@ -121,7 +121,7 @@ struct Theme
 Position dialogueBoxStart(90, 5);
 Position mazeStart(5, 5);
 Player superman(mazeStart.x + 1, mazeStart.y + 1, 'a', 100, false);
-Theme theme("7", "0");
+Theme theme("8", "0");
 
 Riddle riddles[10] = {
 	Riddle("What has keys but can't open locks?", {"A. piano", "B. keyboard", "C. typewriter", "D. computer"}, 'A'),

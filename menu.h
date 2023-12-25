@@ -95,9 +95,9 @@ string optionsMenu()
 int chooseMode()
 {
     cout << setw(90) << "_       _   _______   _____     ______   ______" << endl;
-    cout << setw(90) << "|\     /|   |     |   |    \    |        |     " << endl;
-    cout << setw(90) << "| \   / |   |     |   |     |   |        |     " << endl;
-    cout << setw(90) << "|  \ /  |   |     |   |     |   |_____   |_____" << endl;
+    cout << setw(90) << "|\\     /|   |     |   |    \\    |        |     " << endl;
+    cout << setw(90) << "| \\   / |   |     |   |     |   |        |     " << endl;
+    cout << setw(90) << "|  \\ /  |   |     |   |     |   |_____   |_____" << endl;
     cout << setw(90) << "|       |   |     |   |     |   |             |" << endl;
     cout << setw(90) << "|       |   |     |   |     |   |             |" << endl;
     cout << setw(90) << "|       |   |_____|   |____/    |_____   _____|" << endl;
