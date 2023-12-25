@@ -2,7 +2,7 @@
 
 #include "fundamentals.h"
 
-int find(vector<int> &parent, int i)
+int find(vector<int>& parent, int i)
 {
     if (parent[i] == i)
     {
@@ -10,7 +10,7 @@ int find(vector<int> &parent, int i)
     }
     return find(parent, parent[i]);
 }
-void Union(vector<int> &parent, vector<int> &rank, int x, int y)
+void Union(vector<int>& parent, vector<int>& rank, int x, int y)
 {
     int xRoot = find(parent, x);
     int yRoot = find(parent, y);
@@ -42,11 +42,11 @@ vector<vector<char>> generateMaze(int rows, int cols)
         {
             if (i > 0)
             {
-                walls.push_back({{i, j}, {i - 1, j}}); // Vertical walls
+                walls.push_back({ {i, j}, {i - 1, j} }); // Vertical walls
             }
             if (j > 0)
             {
-                walls.push_back({{i, j}, {i, j - 1}}); // Horizontal walls
+                walls.push_back({ {i, j}, {i, j - 1} }); // Horizontal walls
             }
         }
     }
@@ -63,7 +63,7 @@ vector<vector<char>> generateMaze(int rows, int cols)
         parent[i] = i;
     }
 
-    for (const auto &wall : walls)
+    for (const auto& wall : walls)
     {
         auto cell1 = wall.cell1;
         auto cell2 = wall.cell2;
