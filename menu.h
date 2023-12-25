@@ -16,11 +16,11 @@ string startMenu()
     cout << setw(100) << "  |  |  | |   | __|__ |     |      |  |  | |____ |      | |____|   " << endl;
     cout << endl;
     cout << setw(70) << "1. Start " << endl
-        << endl;
+         << endl;
     cout << setw(71) << "2. Options" << endl
-        << endl;
+         << endl;
     cout << setw(68) << "3. Quit" << endl
-        << endl;
+         << endl;
     string mainInput;
     do
     {
@@ -59,36 +59,43 @@ string optionsMenu()
     cout << setw(90) << "|   | |        |      |   |   | |    \\ |      |" << endl;
     cout << setw(90) << "[___] |        |    __|__ [___] |     \\| _____]" << endl;
     cout << endl
-        << endl;
+         << endl;
     cout << setw(70) << "1. Controls" << endl
-        << endl;
+         << endl;
     cout << setw(70) << "2. Theme   " << endl
-        << endl;
+         << endl;
     cout << setw(70) << "3. Credits " << endl
-        << endl;
+         << endl;
     cout << setw(75) << "Press X to go back" << endl
-        << endl;
+         << endl;
     string optionsInput;
     do
     {
         cout << "\t\t\t\t\t\t\t\t";
         getline(cin, optionsInput);
-        system("cls");
         if (optionsInput == "1")
         {
+            system("cls");   
             return "controls";
         }
         else if (optionsInput == "2")
         {
+            system("cls");  
             return "theme";
         }
         else if (optionsInput == "3")
         {
+            system("cls");  
             return "credits";
         }
         else if (optionsInput == "X" || optionsInput == "x")
         {
+            system("cls");  
             return "back";
+        }
+        else
+        {
+            cout << setw(73) << "Invalid Input" << endl;
         }
     } while (true);
 }
@@ -102,15 +109,15 @@ int chooseMode()
     cout << setw(90) << "|       |   |     |   |     |   |             |" << endl;
     cout << setw(90) << "|       |   |_____|   |____/    |_____   _____|" << endl;
     cout << endl
-        << endl;
-    cout << setw(70) << "1. Classic" << endl
-        << endl;
-    cout << setw(70) << "2. Storyline   " << endl
-        << endl;
-    cout << setw(70) << "3. Timetrail " << endl
-        << endl;
+         << endl;
+    cout << setw(70) << "1. Classic  " << endl
+         << endl;
+    cout << setw(70) << "2. Storyline" << endl
+         << endl;
+    cout << setw(70) << "3. Timetrail" << endl
+         << endl;
     cout << setw(75) << "Press X to go back" << endl
-        << endl;
+         << endl;
     string optionsInput;
     do
     {
@@ -119,19 +126,27 @@ int chooseMode()
         system("cls");
         if (optionsInput == "1")
         {
+            system("cls");  
             return 0;
         }
         else if (optionsInput == "2")
         {
+            system("cls");  
             return 1;
         }
         else if (optionsInput == "3")
         {
+            system("cls");  
             return 2;
         }
         else if (optionsInput == "X" || optionsInput == "x")
         {
+            system("cls");  
             return 3;
+        }
+        else
+        {
+            cout << setw(73) << "Invalid Input" << endl;
         }
     } while (true);
 }
@@ -146,16 +161,16 @@ string controlsMenu()
     cout << setw(100) << "|       |    | |    \\ |    |    | \\    |    | |            | " << endl;
     cout << setw(100) << "|______ |____| |     \\|    |    |  \\   |____| |______ _____| " << endl;
     cout << endl
-        << endl;
+         << endl;
     cout << setw(65) << "Action\t\t\tKey" << endl
-        << endl;
+         << endl;
     cout << setw(68) << "Move Up   \t\tUp Key" << endl;
     cout << setw(71) << "Move Down \t\tDown Key" << endl;
     cout << setw(71) << "Move Left \t\tLeft Key" << endl;
     cout << setw(73) << "Move Right\t\tRight Key" << endl;
     cout << endl
-        << setw(72) << "Press X to go back" << endl
-        << endl;
+         << setw(72) << "Press X to go back" << endl
+         << endl;
     string input;
     do
     {
@@ -165,6 +180,10 @@ string controlsMenu()
         {
             system("cls");
             return "back";
+        }
+        else
+        {
+            cout << setw(73) << "Invalid Input" << endl;
         }
     } while (true);
 }
@@ -188,8 +207,8 @@ bool foregroundMenu()
     cout << setw(65) << "E\tLight Yellow" << endl;
     cout << setw(65) << "F\tBright White" << endl;
     cout << endl
-        << setw(69) << "Press X to go back" << endl
-        << endl;
+         << setw(69) << "Press X to go back" << endl
+         << endl;
     string colorInput;
 
     do
@@ -198,82 +217,103 @@ bool foregroundMenu()
         getline(cin, colorInput);
         if (colorInput == "1")
         {
+            system("cls");  
             theme.foreground = "1";
             changeSystemColor(theme.background, "1");
         }
         else if (colorInput == "2")
         {
+            system("cls");  
             theme.foreground = "2";
             changeSystemColor(theme.background, "2");
         }
         else if (colorInput == "3")
         {
+            system("cls");  
             theme.foreground = "3";
             changeSystemColor(theme.background, "3");
         }
         else if (colorInput == "4")
         {
+            system("cls");  
             theme.foreground = "4";
             changeSystemColor(theme.background, "4");
         }
         else if (colorInput == "5")
         {
+           system("cls");  
+
             theme.foreground = "5";
             changeSystemColor(theme.background, "5");
         }
         else if (colorInput == "6")
         {
+             system("cls");  
             theme.foreground = "6";
             changeSystemColor(theme.background, "6");
         }
         else if (colorInput == "7")
         {
+            system("cls");  
             theme.foreground = "7";
             changeSystemColor(theme.background, "7");
         }
         else if (colorInput == "8")
         {
+            system("cls");  
             theme.foreground = "8";
             changeSystemColor(theme.background, "8");
         }
         else if (colorInput == "9")
         {
+            system("cls");
             theme.foreground = "9";
             changeSystemColor(theme.background, "9");
         }
         else if (colorInput == "A")
         {
+            system("cls");
             theme.foreground = "A";
             changeSystemColor(theme.background, "A");
         }
         else if (colorInput == "B")
         {
+            system("cls");
             theme.foreground = "B";
             changeSystemColor(theme.background, "B");
         }
         else if (colorInput == "C")
         {
+            system("cls");
             theme.foreground = "C";
             changeSystemColor(theme.background, "C");
         }
         else if (colorInput == "D")
         {
+            system("cls");
             theme.foreground = "D";
             changeSystemColor(theme.background, "D");
         }
         else if (colorInput == "E")
         {
+            system("cls");
             theme.foreground = "E";
             changeSystemColor(theme.background, "E");
         }
         else if (colorInput == "F")
         {
+            system("cls");
             theme.foreground = "F";
             changeSystemColor(theme.background, "F");
         }
         else if (colorInput == "X" || colorInput == "x")
         {
+            system("cls");
             return true;
+        }
+        else
+        {
+            cout << setw(73) << "Invalid Input" << endl;
         }
     } while (true);
 }
@@ -297,8 +337,8 @@ bool backgroundMenu()
     cout << setw(65) << "E\tLight Yellow" << endl;
     cout << setw(65) << "F\tBright White" << endl;
     cout << endl
-        << setw(69) << "Press X to go back" << endl
-        << endl;
+         << setw(69) << "Press X to go back" << endl
+         << endl;
     string colorInput;
 
     do
@@ -307,81 +347,97 @@ bool backgroundMenu()
         getline(cin, colorInput);
         if (colorInput == "1")
         {
+            system("cls");
             theme.background = "1";
             changeSystemColor("1", theme.foreground);
         }
         else if (colorInput == "2")
         {
+            system("cls");
             theme.background = "2";
             changeSystemColor("2", theme.foreground);
         }
         else if (colorInput == "3")
         {
+            system("cls");
             theme.background = "3";
             changeSystemColor("3", theme.foreground);
         }
         else if (colorInput == "4")
         {
+            system("cls");
             theme.background = "4";
             changeSystemColor("4", theme.foreground);
         }
         else if (colorInput == "5")
         {
+            system("cls");
             theme.background = "5";
             changeSystemColor("5", theme.foreground);
         }
         else if (colorInput == "6")
         {
+            system("cls");
             theme.background = "6";
             changeSystemColor("6", theme.foreground);
         }
         else if (colorInput == "7")
         {
+            system("cls");
             theme.background = "7";
             changeSystemColor("7", theme.foreground);
         }
         else if (colorInput == "8")
         {
+            system("cls");
             theme.background = "8";
             changeSystemColor("8", theme.foreground);
         }
         else if (colorInput == "9")
         {
+            system("cls");
             theme.background = "9";
             changeSystemColor("9", theme.foreground);
         }
         else if (colorInput == "A")
         {
+            system("cls");
             theme.background = "A";
             changeSystemColor("A", theme.foreground);
         }
         else if (colorInput == "B")
         {
+            system("cls");
             theme.background = "B";
             changeSystemColor("B", theme.foreground);
         }
         else if (colorInput == "C")
         {
+            system("cls");
             theme.background = "C";
             changeSystemColor("C", theme.foreground);
         }
         else if (colorInput == "D")
         {
+            system("cls");
             theme.background = "D";
             changeSystemColor("D", theme.foreground);
         }
         else if (colorInput == "E")
         {
+            system("cls");
             theme.background = "E";
             changeSystemColor("E", theme.foreground);
         }
         else if (colorInput == "F")
         {
+            system("cls");
             theme.background = "F";
             changeSystemColor("F", theme.foreground);
         }
         else if (colorInput == "X" || colorInput == "x")
         {
+            system("cls");
             return true;
         }
         else
@@ -402,13 +458,13 @@ label1:
     cout << setw(80) << "   |    |   | |     |    \\  /    | |    " << endl;
     cout << setw(80) << "   |    |   | |____ |     \\/     | |____" << endl;
     cout << endl
-        << endl;
+         << endl;
     cout << setw(70) << "1. Background Color" << endl;
     cout << endl;
     cout << setw(70) << "2. Text Color      " << endl
-        << endl;
+         << endl;
     cout << setw(69) << "Press X to go back" << endl
-        << endl;
+         << endl;
     string themeInput;
     do
     {
@@ -437,20 +493,24 @@ label1:
             system("cls");
             return "back";
         }
+        else
+        {
+            cout << setw(73) << "Invalid Input" << endl;
+        }
     } while (true);
 }
 string creditsMenu()
 {
-    cout << setw(80) << "1. Producer          ..........        " << endl;
-    cout << setw(80) << "2. Programmers       ..........        " << endl;
-    cout << setw(80) << "                     ..........        " << endl;
-    cout << setw(80) << "3. Writter           ..........        " << endl;
-    cout << setw(80) << "4. Music             ..........        " << endl;
-    cout << setw(80) << "5. Composer          ..........        " << endl;
-    cout << setw(80) << "6. Design Artist     ..........        " << endl;
+    cout << setw(80) << "1. Producer          MNC & AAS        " << endl;
+    cout << setw(80) << "2. Programmers       MNC & AAS        " << endl;
+    cout << setw(80) << "                     MNC & AAS        " << endl;
+    cout << setw(80) << "3. Writter           MNC & AAS        " << endl;
+    cout << setw(80) << "4. Music             MNC & AAS        " << endl;
+    cout << setw(80) << "5. Composer          MNC & AAS        " << endl;
+    cout << setw(80) << "6. Design Artist     MNC & AAS        " << endl;
     cout << endl
-        << setw(65) << "Press X to go back" << endl
-        << endl;
+         << setw(65) << "Press X to go back" << endl
+         << endl;
     string input;
     do
     {
@@ -460,6 +520,10 @@ string creditsMenu()
         {
             system("cls");
             return "back";
+        }
+        else
+        {
+            cout << setw(73) << "Invalid Input" << endl;
         }
     } while (true);
 }

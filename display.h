@@ -394,6 +394,56 @@ void storyline()
     cin >> superman.player;
     Sleep(50);
     system("cls");
+	int x = dialogueBoxStart.x + 1;
+	int y = dialogueBoxStart.y + 2; // one for border, one for heading, then show the text
+	int random = rand() % 4;
+	gotoxy(x, y);
+	switch (random)
+	{
+	case 0: // 	IMMUNE
+		cout << "YOU HAVE FOUND THE IMMUNE POWER UP .";
+		superman.immune = true;
+		enemytraverser = true;
+		break;
+	case 1: // 	SCORE
+		cout << "YOUR SCORE INCREASES BY 12.";
+		score += 12;
+		break;
+	case 2: //	HEALTH
+		cout << "YOUR SCORE HEALTH IS RESTORED BY 5.";
+		superman.health += 5;
+		break;
+	case 3:
+		cout << "YOUR CHEST IS EMPTY PLEASE";
+		break;
+	default:
+		break;
+	}
+}
+void encounterEnemy(int playerX, int enemyX, int playerY, int enemyY)
+{
+	if (superman.immune)
+	{
+		superman.immune = false;
+		return;
+	}
+	// Check if the player encounters the enemy
+	if (playerX == enemyX && playerY == enemyY && getASCIIAtPosition(enemyX, enemyY) == -24) // -80 was the previous.
+		{
+		int random = (levelno > 2) ? rand() % 2 : 3; // if level > 2, there are chances of both questions and riddles else only questions
+		switch (random)
+		{
+		case 0:
+			askQuestions();
+			break;
+		case 1:
+			askRiddles();
+			break;
+		default:
+			askQuestions();
+			break;
+		}
+	}
 
     string introduction = "\nThis story is about a lost survivor who has lost himself in the forest. \n in order to reach out of the forest he has to pass through different mazes. \nIf he succesfully cleares all the mazes, then he finds himself out of the maze. \nThe game starts in a HUT. Player's is looking for the path out can you help him. ";
     for (char& c : introduction)
@@ -712,4 +762,124 @@ void finalBoss()
     }
 
     system("cls");
+}
+void displayChests()
+{
+	for (int i = 0; i < numberOfChests; i++)
+	{
+		chestsArray[i].character = '+';
+	}
+	srand(static_cast<unsigned int>(time(0)));
+
+	while (true)
+	{ // doing the necessary modifidcations so that the chests do not get out of the maze
+		for (int i = 0; i < numberOfChests; i++)
+		{
+			chestsArray[i].x = (5 + (rand() % mazeCols));
+			chestsArray[i].y = (5 + (rand() % mazeCols));
+		}
+		bool isEncounter = false;
+		// checking enemy correctness
+		for (int i = 0; i < numberOfChests; i++)
+			if (chestCoordiCorrectness(chestsArray[i].x, chestsArray[i].y))
+			{
+				isEncounter = true;
+				break;
+			}
+
+		if (isEncounter)
+			break;
+	}
+
+	for (int i = 0; i < numberOfChests; i++)
+	{
+		gotoxy(chestsArray[i].x, chestsArray[i].y);
+		cout << chestsArray[i].character;
+	}
+}
+void displayEnemies()
+{
+	for (int i = 0; i < numberOfEnemies; i++)
+		enemiesArray[i].enemy = 232;
+
+	srand(static_cast<unsigned int>(time(0)));
+
+	int enemyX;
+	int enemyY;
+	int i = 0;
+	while (i < numberOfEnemies)
+	{
+		enemyX = mazeStart.x + 2 + (rand() % mazeCols - 1); // 2 is to prevent from the start of the wall and 1 is from the end
+		enemyY = mazeStart.y + 2 + (rand() % mazeRows - 1);
+		if (enemyCoordiCorrectness(enemyX, enemyY))
+			continue;
+
+		enemiesArray[i].x = enemyX;
+		enemiesArray[i].y = enemyY;
+		i++;
+	}
+
+	for (int i = 0; i < numberOfEnemies; i++)
+	{
+		gotoxy(enemiesArray[i].x, enemiesArray[i].y);
+		cout << enemiesArray[i].enemy;
+	}
+}
+void displayDialogueBox()
+{
+
+	gotoxy(dialogueBoxStart.x, dialogueBoxStart.y);
+
+	// Draw the top border
+	char topAciiCharacter = 203;
+	for (int i = 0; i < dialogueBoxWidth; i++)
+	{
+		cout << topAciiCharacter;
+	}
+
+	// Draw the sides
+	char leftAciiCharacter = 204;
+	char rightAciiCharacter = 185;
+	for (int i = 1; i < dialogueBoxHeight - 1; i++)
+	{
+		gotoxy(dialogueBoxStart.x, dialogueBoxStart.y + i);
+		cout << leftAciiCharacter;
+		gotoxy(dialogueBoxStart.x + dialogueBoxWidth - 1, dialogueBoxStart.y + i);
+		cout << rightAciiCharacter;
+	}
+
+	// Draw the bottom border
+	char bottomAciiCharacter = 202;
+	gotoxy(dialogueBoxStart.x, dialogueBoxStart.y + dialogueBoxHeight - 1);
+	for (int i = 0; i < dialogueBoxWidth; i++)
+	{
+		cout << bottomAciiCharacter;
+	}
+
+	string dialogue = "-----Dialogue Box-----";
+	int x = (dialogueBoxStart.x + (dialogueBoxStart.x + dialogueBoxWidth)) / 2 - dialogue.length() / 2;
+	gotoxy(x, dialogueBoxStart.y + 1);
+	cout << dialogue;
+}
+void displayMaze(const vector<vector<char>>& maze)
+{
+	int i = 0;
+	for (const auto& row : maze)
+	{
+		gotoxy(mazeStart.x, mazeStart.y + i);
+		for (char cell : row)
+		{
+			cout << cell << "";
+		}
+		cout << " " << endl;
+		i++;
+	}
+	displayEnemies();
+	displayChests();
+}
+void displayGame(const vector<vector<char>>& maze)
+{
+	displayMaze(maze);
+	displayDialogueBox();
+	// displayScreenBorders();  // not working correctly right now
 }
