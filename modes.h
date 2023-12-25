@@ -36,6 +36,8 @@ void timer()
 }
 void movePlayerwithtimer(int x, int y, char c)
 {
+
+   enableBGText(BACKGROUND_SILVER);
     int timeLimit = 30; // Time limit in seconds
 
     // Timer logic
@@ -56,7 +58,7 @@ void movePlayerwithtimer(int x, int y, char c)
 
             exit(0);
         }
-        gotoxy(0, 1);
+        gotoxy(2, 4);
         // Display time remaining to the player
         cout << "Time remaining: " << end_time - current_time << " seconds";
 
@@ -75,28 +77,33 @@ void movePlayerwithtimer(int x, int y, char c)
             int prevY = y;
 
             // Move the player based on arrow key input
+            
             switch (key)
             {
-            case 'w':
+            case 72: // Up Arrow key code
                 prevY = y;
                 y--;
                 break;
-            case 's':
+            case 80: // Down Arrow key code
                 prevY = y;
                 y++;
                 break;
-            case 'a':
+            case 75: // Left Arrow key code
                 prevX = x;
                 x--;
                 break;
-            case 'd':
+            case 77: // Right Arrow key code
                 prevX = x;
                 x++;
                 break;
-            default:
-                break;
+            case 27: // ESCAPE key
+                system("cls");
+                throw std::runtime_error("BreakException");
+                // goto StartOfGame;
+                break;   
+            default : 
+            break; 
             }
-
             // Check for collisions with walls or obstacles
             if ((
                     (getASCIIAtPosition(x, y) == -37) || // giving -37 for solid block as ascii value
@@ -113,6 +120,13 @@ void movePlayerwithtimer(int x, int y, char c)
                 encounterEnemy(x, enemiesArray[i].x, y, enemiesArray[i].y);
             }
 
+             // for checking if there is chest at this position.
+            for (int i = 0; i < numberOfChests; i++)
+            {
+                encounterChest(x, chestsArray[i].x, y, chestsArray[i].y);
+            }
+           
+
             // condition to check whether the player has reached out of the maze or not.
             if (getCharacterAtPosition(x, y) == 'E')
             {
@@ -125,6 +139,7 @@ void movePlayerwithtimer(int x, int y, char c)
             } // now display  a portal at the final destination.
         }
     }
+    timelimit += 15; 
 }
 void combat(Player *b, Monster *a)
 {
@@ -576,35 +591,44 @@ void storyline()
     }
 }
 void timetrail()
+
 {
     changeSystemColor();
-
+   
     system("cls");
     loadingbar();
     system("cls");
     // giving the user the introduction when he enters the maze game.
-    cout << "Welcone to the time trial." << endl;
-    cout << "Here you will be given specific time to solve the maze " << endl;
-    cout << "if you do solve the maze in the required time then you procedd to the next maze";
-    cout << "We hope that you will enjoy this mode of the game. " << endl;
-    cout << "\n choose the character that you want to play the game ; " << endl;
-    cin >> superman.player;
+string timetrailintro = "WELCOME TO THE TIMETRAIL MODE OF THE GAME. \n"
+                        "IN THIS MODE YOU WILL BE GIVEN SPECIFIC TIME TO SOLVE THE MAZE.\n"
+                        "IF YOU SOLVED THE MAZE IN THE GIVEN TIME THEN YOU WILL PROCEED TO THE NEXT MAZE.\n"
+                        "THIS WILL CONTINUE UNTIL YOUR HEALTH BECOMES ZERO OR YOU RAN OUT OF TIME\n"
+                        "WE HOPE THAT YOU WILL ENJOY THIS MODE OF THE GAME.\n"; 
+    animateText(timetrailintro);
+    // making the predefined function 
+     superman.player = 'P';
     while (true)
     {
         system("cls");
+        cout<<"+========================================+"; cout<<endl; 
+        cout<<"                     ||                   "; cout<<endl;
+        cout<<"       SCORE OF PLAYER   "<<score<<"      "; cout<<endl;
+        cout<<"                     ||                   "; cout<<endl;
+        cout<<"+========================================+"; cout<<endl;
 
-        gotoxy(2, 2);
+        gotoxy(2, 9);
         vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
         displayMaze(maze);
+        displayDialogueBox();
         movePlayerwithtimer(superman.x, superman.y, superman.player);
 
         // incresing the score by 20 when the user clears a maze.
         score += 20;
         // updatintg the size of the maze every time the user survives the game.
         mazeRows += 2;
-        mazeCols += 4;
+        mazeCols += 3;
 
-        // After the maze is displayed, start player movement
+       // After the maze is displayed, start player movement
     }
 }
 
