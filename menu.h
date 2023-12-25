@@ -1,3 +1,4 @@
+#pragma once
 #include "fundamentals.h"
 #include "helper.h"
 
@@ -15,11 +16,11 @@ string startMenu()
     cout << setw(100) << "  |  |  | |   | __|__ |     |      |  |  | |____ |      | |____|   " << endl;
     cout << endl;
     cout << setw(70) << "1. Start " << endl
-         << endl;
+        << endl;
     cout << setw(71) << "2. Options" << endl
-         << endl;
+        << endl;
     cout << setw(68) << "3. Quit" << endl
-         << endl;
+        << endl;
     string mainInput;
     do
     {
@@ -58,15 +59,15 @@ string optionsMenu()
     cout << setw(90) << "|   | |        |      |   |   | |    \\ |      |" << endl;
     cout << setw(90) << "[___] |        |    __|__ [___] |     \\| _____]" << endl;
     cout << endl
-         << endl;
+        << endl;
     cout << setw(70) << "1. Controls" << endl
-         << endl;
+        << endl;
     cout << setw(70) << "2. Theme   " << endl
-         << endl;
+        << endl;
     cout << setw(70) << "3. Credits " << endl
-         << endl;
+        << endl;
     cout << setw(75) << "Press X to go back" << endl
-         << endl;
+        << endl;
     string optionsInput;
     do
     {
@@ -91,6 +92,50 @@ string optionsMenu()
         }
     } while (true);
 }
+int chooseMode()
+{
+    cout << setw(90) << "_       _   _______   _____     ______   ______" << endl;
+    cout << setw(90) << "|\     /|   |     |   |    \    |        |     " << endl;
+    cout << setw(90) << "| \   / |   |     |   |     |   |        |     " << endl;
+    cout << setw(90) << "|  \ /  |   |     |   |     |   |_____   |_____" << endl;
+    cout << setw(90) << "|       |   |     |   |     |   |             |" << endl;
+    cout << setw(90) << "|       |   |     |   |     |   |             |" << endl;
+    cout << setw(90) << "|       |   |_____|   |____/    |_____   _____|" << endl;
+    cout << endl
+        << endl;
+    cout << setw(70) << "1. Classic" << endl
+        << endl;
+    cout << setw(70) << "2. Storyline   " << endl
+        << endl;
+    cout << setw(70) << "3. Timetrail " << endl
+        << endl;
+    cout << setw(75) << "Press X to go back" << endl
+        << endl;
+    string optionsInput;
+    do
+    {
+        cout << "\t\t\t\t\t\t\t\t";
+        getline(cin, optionsInput);
+        system("cls");
+        if (optionsInput == "1")
+        {
+            return 0;
+        }
+        else if (optionsInput == "2")
+        {
+            return 1;
+        }
+        else if (optionsInput == "3")
+        {
+            return 2;
+        }
+        else if (optionsInput == "X" || optionsInput == "x")
+        {
+            return 3;
+        }
+    } while (true);
+}
+
 string controlsMenu()
 {
     cout << setw(100) << "_______ ______ _      _ _______ ______ ______ _       ______ " << endl;
@@ -101,16 +146,16 @@ string controlsMenu()
     cout << setw(100) << "|       |    | |    \\ |    |    | \\    |    | |            | " << endl;
     cout << setw(100) << "|______ |____| |     \\|    |    |  \\   |____| |______ _____| " << endl;
     cout << endl
-         << endl;
+        << endl;
     cout << setw(65) << "Action\t\t\tKey" << endl
-         << endl;
+        << endl;
     cout << setw(68) << "Move Up   \t\tUp Key" << endl;
     cout << setw(71) << "Move Down \t\tDown Key" << endl;
     cout << setw(71) << "Move Left \t\tLeft Key" << endl;
     cout << setw(73) << "Move Right\t\tRight Key" << endl;
     cout << endl
-         << setw(72) << "Press X to go back" << endl
-         << endl;
+        << setw(72) << "Press X to go back" << endl
+        << endl;
     string input;
     do
     {
@@ -143,8 +188,8 @@ bool foregroundMenu()
     cout << setw(65) << "E\tLight Yellow" << endl;
     cout << setw(65) << "F\tBright White" << endl;
     cout << endl
-         << setw(69) << "Press X to go back" << endl
-         << endl;
+        << setw(69) << "Press X to go back" << endl
+        << endl;
     string colorInput;
 
     do
@@ -159,7 +204,7 @@ bool foregroundMenu()
         else if (colorInput == "2")
         {
             theme.foreground = "2";
-             changeSystemColor(theme.background, "2");
+            changeSystemColor(theme.background, "2");
         }
         else if (colorInput == "3")
         {
@@ -252,8 +297,8 @@ bool backgroundMenu()
     cout << setw(65) << "E\tLight Yellow" << endl;
     cout << setw(65) << "F\tBright White" << endl;
     cout << endl
-         << setw(69) << "Press X to go back" << endl
-         << endl;
+        << setw(69) << "Press X to go back" << endl
+        << endl;
     string colorInput;
 
     do
@@ -357,13 +402,13 @@ label1:
     cout << setw(80) << "   |    |   | |     |    \\  /    | |    " << endl;
     cout << setw(80) << "   |    |   | |____ |     \\/     | |____" << endl;
     cout << endl
-         << endl;
+        << endl;
     cout << setw(70) << "1. Background Color" << endl;
     cout << endl;
     cout << setw(70) << "2. Text Color      " << endl
-         << endl;
+        << endl;
     cout << setw(69) << "Press X to go back" << endl
-         << endl;
+        << endl;
     string themeInput;
     do
     {
@@ -404,8 +449,8 @@ string creditsMenu()
     cout << setw(80) << "5. Composer          ..........        " << endl;
     cout << setw(80) << "6. Design Artist     ..........        " << endl;
     cout << endl
-         << setw(65) << "Press X to go back" << endl
-         << endl;
+        << setw(65) << "Press X to go back" << endl
+        << endl;
     string input;
     do
     {

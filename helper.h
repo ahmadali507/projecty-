@@ -10,11 +10,11 @@ void gotoxy(int x, int y)
     coord.Y = y;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
- 
+
 void changeSystemColor(string bg = theme.background, string fg = theme.foreground)
 {
     string command = "color " + bg + fg;
-    const char *commandCStr = command.c_str();
+    const char* commandCStr = command.c_str();
     system(commandCStr);
 }
 void animateText(string sentence)
@@ -46,7 +46,7 @@ void cleanDialogueBox()
         }
     }
 }
-void customPrint(int x, int y, int width, const std::string &text, int &linesTaken)
+void customPrint(int x, int y, int width, const std::string& text, int& linesTaken)
 {
     // Initial position
     int currentX = x;
@@ -105,7 +105,7 @@ char getCharacterAtPosition(int x, int y)
         return '\0';
     }
 
-    COORD coord = {static_cast<SHORT>(x), static_cast<SHORT>(y)};
+    COORD coord = { static_cast<SHORT>(x), static_cast<SHORT>(y) };
     DWORD charsRead;
     char charBuffer;
 
@@ -126,7 +126,7 @@ int getASCIIAtPosition(int x, int y)
         return 0; // Return 0 to indicate an error
     }
 
-    COORD coord = {static_cast<SHORT>(x), static_cast<SHORT>(y)};
+    COORD coord = { static_cast<SHORT>(x), static_cast<SHORT>(y) };
     DWORD charsRead;
     char charBuffer;
 
@@ -175,7 +175,7 @@ void loadingbar()
         Sleep(50);
     }
 }
-void centerText(const string &text)
+void centerText(const string& text)
 {
     int width = getConsoleWidth();
     if (width > 0)
@@ -194,7 +194,7 @@ void centerText(const string &text)
 }
 string toLowerCase(string answer)
 {
-    for (char &c : answer)
+    for (char& c : answer)
     {
         c = tolower(c);
     }
@@ -223,7 +223,7 @@ void loadingScreen()
     cout << setw(115) << "  |    |   | |       | \\   |   |    | |   | |        |         | |   | |   | |     |    " << endl;
     cout << setw(115) << "  |    |   | |____   |  \\  |___|    | |___| |____    |____ ____| |___| |   | |     |____" << endl;
     cout << endl
-         << endl;
+        << endl;
     cout << setw(60) << "Loading... ";
     for (int i = 0; i < 22; i++)
     {
@@ -232,7 +232,7 @@ void loadingScreen()
     for (int i = 0; i < 22; i++)
     {
         cursorPosition(60 + i, 11);
-        Sleep(250);
+        Sleep(25);
         cout << char(178);
     }
 }
