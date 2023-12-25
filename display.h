@@ -190,8 +190,8 @@ void encounterEnemy(int playerX, int enemyX, int playerY, int enemyY)
 		return;
 	}
 	// Check if the player encounters the enemy
-	if (playerX == enemyX && playerY == enemyY && getASCIIAtPosition(enemyX, enemyY) == -80)
-	{
+	if (playerX == enemyX && playerY == enemyY && getASCIIAtPosition(enemyX, enemyY) == -24) // -80 was the previous.
+		{
 		int random = (levelno > 2) ? rand() % 2 : 3; // if level > 2, there are chances of both questions and riddles else only questions
 		switch (random)
 		{
@@ -333,7 +333,7 @@ void displayChests()
 void displayEnemies()
 {
 	for (int i = 0; i < numberOfEnemies; i++)
-		enemiesArray[i].enemy = 176;
+		enemiesArray[i].enemy = 232;
 
 	srand(static_cast<unsigned int>(time(0)));
 

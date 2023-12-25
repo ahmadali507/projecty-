@@ -97,11 +97,13 @@ void game()
 			}
 		}
 
+	} // main while
+
+
 		ofstream out("Source2.txt", ios::app);
 		if (out.is_open())
 		{
-			out << endl
-				<< username << "\t\t\t\t\t" << score << endl;
+			out << score << endl;
 
 			out.flush();
 			out.close();
@@ -109,6 +111,4 @@ void game()
 
 		else
 			cout << "unable to load file ";
-	} // main while
-
 }
