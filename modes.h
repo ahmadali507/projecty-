@@ -2,9 +2,9 @@
 
 #include "fundamentals.h"
 #include "helper.h"
-// #include "menu.h"
-#include "display.h"
+// #include "display.h"
 #include "maze.h"
+
 void timer()
 {
     int timeLimit = 30; // Time limit in seconds
@@ -106,9 +106,9 @@ void movePlayerwithtimer(int x, int y, char c)
             }
             // Check for collisions with walls or obstacles
             if ((
-                (getASCIIAtPosition(x, y) == -37) || // giving -37 for solid block as ascii value
-                (getCharacterAtPosition(x, y) == '|') ||
-                (getCharacterAtPosition(x, y) == '*')))
+                    (getASCIIAtPosition(x, y) == -37) || // giving -37 for solid block as ascii value
+                    (getCharacterAtPosition(x, y) == '|') ||
+                    (getCharacterAtPosition(x, y) == '*')))
             {
                 x = prevX;
                 y = prevY;
@@ -126,7 +126,6 @@ void movePlayerwithtimer(int x, int y, char c)
                 encounterChest(x, chestsArray[i].x, y, chestsArray[i].y);
             }
 
-
             // condition to check whether the player has reached out of the maze or not.
             if (getCharacterAtPosition(x, y) == 'E')
             {
@@ -141,7 +140,8 @@ void movePlayerwithtimer(int x, int y, char c)
     }
     timelimit += 15;
 }
-void combat(Player* b, Monster* a)
+
+void combat(Player *b, Monster *a)
 {
     // printing line only for the purpose of formatting
 
@@ -150,7 +150,7 @@ void combat(Player* b, Monster* a)
     cout << endl;
     Sleep(5000);
     changeSystemColor();
-    string combatOptions[4] = { "Attack", "Defend", "Special Move", "SKIP ENEMY" };
+    string combatOptions[4] = {"Attack", "Defend", "Special Move", "SKIP ENEMY"};
     // change turn of each
     bool turnchanger = true;
     srand(time(NULL));
@@ -223,7 +223,7 @@ void combat(Player* b, Monster* a)
             {
                 attack = 5 + (rand() % 20);
                 string specialAttack = "USING THE SPECIAL ATTACK  OF THE PLAYER"
-                    "\nRight execution will deal massive damage to the enemy.";
+                                       "\nRight execution will deal massive damage to the enemy.";
 
                 (specialAttack);
                 cout << "the damage to the enemy is as follows. " << attack << endl;
@@ -233,7 +233,7 @@ void combat(Player* b, Monster* a)
             case 3:
             {
                 string choose = "YOU SOMEHOW MANAGED TO ESCAPE THE ENEMY\n"
-                    "BUT DUE TO HARSHILY RUNNING TO ESCAPE YOU LOST 15 POINTS OF HEALTH";
+                                "BUT DUE TO HARSHILY RUNNING TO ESCAPE YOU LOST 15 POINTS OF HEALTH";
                 animateText(choose);
                 b->health -= 15;
                 // using the return go back to caller function and continue the next portion of hte storyline.
@@ -381,6 +381,7 @@ void movePlayer(int x, int y, char c)
         }
     }
 }
+
 void storyline()
 {
     system("cls");
@@ -396,7 +397,7 @@ void storyline()
     system("cls");
 
     string introduction = "\nThis story is about a lost survivor who has lost himself in the forest. \n in order to reach out of the forest he has to pass through different mazes. \nIf he succesfully cleares all the mazes, then he finds himself out of the maze. \nThe game starts in a HUT. Player's is looking for the path out can you help him. ";
-    for (char& c : introduction)
+    for (char &c : introduction)
     {
         c = toupper(c);
     }
@@ -416,14 +417,13 @@ void storyline()
 
         if (levelno == 1)
         {
-            changeSystemColor();
             numberOfEnemies = 3;
             string level1Story = "Level 1: The Monstrous Hut\n"
-                "In the heart of the forest lies an old hut, shrouded in mystery. Here,\n "
-                "you must navigate through hidden passages and solve ancient puzzles to find the exit.\n";
+                                 "In the heart of the forest lies an old hut, shrouded in mystery. Here,\n "
+                                 "you must navigate through hidden passages and solve ancient puzzles to find the exit.\n";
+            vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
             animateText(level1Story);
             gotoxy(0, 4);
-            vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
             displayGame(maze);
             movePlayer(superman.x, superman.y, superman.player);
             mazeRows += 1;
@@ -434,12 +434,11 @@ void storyline()
         }
         else if (levelno == 2)
         {
-            changeSystemColor();
             numberOfEnemies = 5;
             system("cls");
             string level2Story = "Level 2: Entering the Jungle\n"
-                "Emerging from the hut, you find yourself at the edge of a dense jungle. \n"
-                "Your senses tingle as you step into the green maze,\n with unknown dangers lurking in the shadows.\n";
+                                 "Emerging from the hut, you find yourself at the edge of a dense jungle. \n"
+                                 "Your senses tingle as you step into the green maze,\n with unknown dangers lurking in the shadows.\n";
             animateText(level2Story);
             gotoxy(0, 4);
             vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
@@ -451,12 +450,11 @@ void storyline()
         }
         else if (levelno == 3)
         {
-            changeSystemColor();
             numberOfEnemies = 7;
             system("cls");
             string level3Story = "Level 3: Jungle Survival\n"
-                "Deeper into the jungle, survival becomes a challenge. \n"
-                "Here, the maze tests your ability to find resources and\n protect yourself against the wild inhabitants of the forest.\n";
+                                 "Deeper into the jungle, survival becomes a challenge. \n"
+                                 "Here, the maze tests your ability to find resources and\n protect yourself against the wild inhabitants of the forest.\n";
             animateText(level3Story);
             gotoxy(0, 4);
             vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
@@ -468,12 +466,11 @@ void storyline()
         }
         else if (levelno == 4)
         {
-            changeSystemColor();
             numberOfEnemies = 9;
             system("cls");
             string level4Story = "Level 4: Reaching the River\n"
-                "Beyond the jungle lies a vast river. The maze now involves crossing treacherous waters \n"
-                "and navigating along its unpredictable banks, full of slippery stones and hidden paths.\n";
+                                 "Beyond the jungle lies a vast river. The maze now involves crossing treacherous waters \n"
+                                 "and navigating along its unpredictable banks, full of slippery stones and hidden paths.\n";
             animateText(level4Story);
             gotoxy(0, 4);
             vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
@@ -485,12 +482,11 @@ void storyline()
         }
         else if (levelno == 5)
         {
-            changeSystemColor();
             numberOfEnemies = 11;
             system("cls");
             string level5Story = "Level 5: Entering the Dungeon\n"
-                "As you travel, you discover an entrance to an underground dungeon. \n"
-                "In this level, the maze becomes a labyrinth of dark, \nnarrow tunnels filled with ancient traps and cryptic symbols.\n";
+                                 "As you travel, you discover an entrance to an underground dungeon. \n"
+                                 "In this level, the maze becomes a labyrinth of dark, \nnarrow tunnels filled with ancient traps and cryptic symbols.\n";
             animateText(level5Story);
             gotoxy(0, 4);
             vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
@@ -502,12 +498,11 @@ void storyline()
         }
         else if (levelno == 6)
         {
-            changeSystemColor();
             numberOfEnemies = 13;
             system("cls");
             string level6Story = "Level 6: The Dungeon Part 2\n"
-                "Deeper in the dungeon, the challenges intensify. \n"
-                "The maze here is more complex, with dead ends and hidden doors,\n as you delve into the heart of the underground world.\n";
+                                 "Deeper in the dungeon, the challenges intensify. \n"
+                                 "The maze here is more complex, with dead ends and hidden doors,\n as you delve into the heart of the underground world.\n";
             animateText(level6Story);
             gotoxy(0, 4);
             vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
@@ -519,12 +514,11 @@ void storyline()
         }
         else if (levelno == 7)
         {
-            changeSystemColor();
             numberOfEnemies = 15;
             system("cls");
             string level7Story = "Level 7: Death Valley\n"
-                "Escaping the dungeon, you find yourself in Death Valley, a desolate landscape. \n"
-                "Here, the maze is a series of dry canyons and treacherous cliffs,\n with extreme conditions testing your endurance.\n";
+                                 "Escaping the dungeon, you find yourself in Death Valley, a desolate landscape. \n"
+                                 "Here, the maze is a series of dry canyons and treacherous cliffs,\n with extreme conditions testing your endurance.\n";
             animateText(level7Story);
             gotoxy(0, 4);
             vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
@@ -536,12 +530,11 @@ void storyline()
         }
         else if (levelno == 8)
         {
-            changeSystemColor();
             numberOfEnemies = 17;
             system("cls");
             string level8Story = "Level 8: Death Bridge\n"
-                "Your path leads you to a precarious bridge. In this level, \n"
-                "you must carefully navigate across while solving puzzles\n that control the bridge's stability and path.\n";
+                                 "Your path leads you to a precarious bridge. In this level, \n"
+                                 "you must carefully navigate across while solving puzzles\n that control the bridge's stability and path.\n";
             animateText(level8Story);
             gotoxy(0, 4);
             vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
@@ -553,12 +546,11 @@ void storyline()
         }
         else if (levelno == 9)
         {
-            changeSystemColor();
             numberOfEnemies = 19;
             system("cls");
             string level9Story = "Level 9: Dead End\n"
-                "Nearing the end of your journey, you enter a maze that seems to have no exit. \n"
-                "This level requires clever problem-solving and \nintuition to find the hidden passage leading out.\n";
+                                 "Nearing the end of your journey, you enter a maze that seems to have no exit. \n"
+                                 "This level requires clever problem-solving and \nintuition to find the hidden passage leading out.\n";
             animateText(level9Story);
             gotoxy(0, 4);
             vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
@@ -570,12 +562,11 @@ void storyline()
         }
         else if (levelno == 10)
         {
-            changeSystemColor();
             numberOfEnemies = 21;
             system("cls");
             string level10Story = "Level 10: Path to the Earth\n"
-                "In the final challenge, you must use all your acquired skills\n and knowledge to navigate the most intricate maze. \n"
-                "Success here means finding the path that leads back to the familiar world.\n";
+                                  "In the final challenge, you must use all your acquired skills\n and knowledge to navigate the most intricate maze. \n"
+                                  "Success here means finding the path that leads back to the familiar world.\n";
             animateText(level10Story);
             gotoxy(0, 4);
             vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
@@ -603,17 +594,17 @@ void timetrail()
     system("cls");
     // giving the user the introduction when he enters the maze game.
     string timetrailintro = "WELCOME TO THE TIMETRAIL MODE OF THE GAME. \n"
-        "IN THIS MODE YOU WILL BE GIVEN SPECIFIC TIME TO SOLVE THE MAZE.\n"
-        "IF YOU SOLVED THE MAZE IN THE GIVEN TIME THEN YOU WILL PROCEED TO THE NEXT MAZE.\n"
-        "THIS WILL CONTINUE UNTIL YOUR HEALTH BECOMES ZERO OR YOU RAN OUT OF TIME\n"
-        "WE HOPE THAT YOU WILL ENJOY THIS MODE OF THE GAME.\n";
+                            "IN THIS MODE YOU WILL BE GIVEN SPECIFIC TIME TO SOLVE THE MAZE.\n"
+                            "IF YOU SOLVED THE MAZE IN THE GIVEN TIME THEN YOU WILL PROCEED TO THE NEXT MAZE.\n"
+                            "THIS WILL CONTINUE UNTIL YOUR HEALTH BECOMES ZERO OR YOU RAN OUT OF TIME\n"
+                            "WE HOPE THAT YOU WILL ENJOY THIS MODE OF THE GAME.\n";
     animateText(timetrailintro);
-    // making the predefined function 
+    // making the predefined function
     superman.player = 'P';
     while (true)
     {
         system("cls");
-        
+
         gotoxy(2, 9);
         vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
         displayMaze(maze);
@@ -629,7 +620,6 @@ void timetrail()
         // After the maze is displayed, start player movement
     }
 }
-
 void classic()
 {
     changeSystemColor();
@@ -704,7 +694,7 @@ void finalBoss()
     string news;
     centerText("+========================================+");
     string warning = " HE HE HOO HOOO HAAA HAAA HAAA  \n   YOU HAVE DONE A GREAT JOB SOO FAR   \n BUT NOW IT IS TIME TO DIE .\n AND THE BATTLE BEGINS";
-    for (char& c : warning)
+    for (char &c : warning)
     {
         news += c;
         Sleep(800);
