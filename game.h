@@ -69,7 +69,7 @@ void game()
 			// 	 system("cls");
 			// 	 // cin >> response;
 			// 	string modeOptions[3] = { "Classic", "Storyline", "Timetrial" };
-			 
+
 			response = chooseMode();
 			cout << response;
 			switch (response)

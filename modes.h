@@ -36,8 +36,8 @@ void timer()
 }
 void movePlayerwithtimer(int x, int y, char c)
 {
-
-   enableBGText(BACKGROUND_SILVER);
+    changeSystemColor();
+    enableBGText(BACKGROUND_SILVER);
     int timeLimit = 30; // Time limit in seconds
 
     // Timer logic
@@ -77,7 +77,7 @@ void movePlayerwithtimer(int x, int y, char c)
             int prevY = y;
 
             // Move the player based on arrow key input
-            
+
             switch (key)
             {
             case 72: // Up Arrow key code
@@ -100,9 +100,9 @@ void movePlayerwithtimer(int x, int y, char c)
                 system("cls");
                 throw std::runtime_error("BreakException");
                 // goto StartOfGame;
-                break;   
-            default : 
-            break; 
+                break;
+            default:
+                break;
             }
             // Check for collisions with walls or obstacles
             if ((
@@ -120,12 +120,12 @@ void movePlayerwithtimer(int x, int y, char c)
                 encounterEnemy(x, enemiesArray[i].x, y, enemiesArray[i].y);
             }
 
-             // for checking if there is chest at this position.
+            // for checking if there is chest at this position.
             for (int i = 0; i < numberOfChests; i++)
             {
                 encounterChest(x, chestsArray[i].x, y, chestsArray[i].y);
             }
-           
+
 
             // condition to check whether the player has reached out of the maze or not.
             if (getCharacterAtPosition(x, y) == 'E')
@@ -139,7 +139,7 @@ void movePlayerwithtimer(int x, int y, char c)
             } // now display  a portal at the final destination.
         }
     }
-    timelimit += 15; 
+    timelimit += 15;
 }
 void combat(Player* b, Monster* a)
 {
@@ -224,7 +224,7 @@ void combat(Player* b, Monster* a)
                 attack = 5 + (rand() % 20);
                 string specialAttack = "USING THE SPECIAL ATTACK  OF THE PLAYER"
                     "\nRight execution will deal massive damage to the enemy.";
-                
+
                 (specialAttack);
                 cout << "the damage to the enemy is as follows. " << attack << endl;
                 a->health -= attack;
@@ -281,7 +281,9 @@ void combat(Player* b, Monster* a)
 }
 void movePlayer(int x, int y, char c)
 {
+    changeSystemColor();
     enableBGText(BACKGROUND_SILVER);
+
     // Character representing the player
     while (true)
     {
@@ -595,28 +597,23 @@ void timetrail()
 
 {
     changeSystemColor();
-   
+
     system("cls");
     loadingbar();
     system("cls");
     // giving the user the introduction when he enters the maze game.
-string timetrailintro = "WELCOME TO THE TIMETRAIL MODE OF THE GAME. \n"
-                        "IN THIS MODE YOU WILL BE GIVEN SPECIFIC TIME TO SOLVE THE MAZE.\n"
-                        "IF YOU SOLVED THE MAZE IN THE GIVEN TIME THEN YOU WILL PROCEED TO THE NEXT MAZE.\n"
-                        "THIS WILL CONTINUE UNTIL YOUR HEALTH BECOMES ZERO OR YOU RAN OUT OF TIME\n"
-                        "WE HOPE THAT YOU WILL ENJOY THIS MODE OF THE GAME.\n"; 
+    string timetrailintro = "WELCOME TO THE TIMETRAIL MODE OF THE GAME. \n"
+        "IN THIS MODE YOU WILL BE GIVEN SPECIFIC TIME TO SOLVE THE MAZE.\n"
+        "IF YOU SOLVED THE MAZE IN THE GIVEN TIME THEN YOU WILL PROCEED TO THE NEXT MAZE.\n"
+        "THIS WILL CONTINUE UNTIL YOUR HEALTH BECOMES ZERO OR YOU RAN OUT OF TIME\n"
+        "WE HOPE THAT YOU WILL ENJOY THIS MODE OF THE GAME.\n";
     animateText(timetrailintro);
     // making the predefined function 
-     superman.player = 'P';
+    superman.player = 'P';
     while (true)
     {
         system("cls");
-        cout<<"+========================================+"; cout<<endl; 
-        cout<<"                     ||                   "; cout<<endl;
-        cout<<"       SCORE OF PLAYER   "<<score<<"      "; cout<<endl;
-        cout<<"                     ||                   "; cout<<endl;
-        cout<<"+========================================+"; cout<<endl;
-
+        
         gotoxy(2, 9);
         vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
         displayMaze(maze);
@@ -629,7 +626,7 @@ string timetrailintro = "WELCOME TO THE TIMETRAIL MODE OF THE GAME. \n"
         mazeRows += 2;
         mazeCols += 3;
 
-       // After the maze is displayed, start player movement
+        // After the maze is displayed, start player movement
     }
 }
 
@@ -658,7 +655,7 @@ void classic()
     cout << endl;
     centerText("+=========================================================================+");
     cout << endl;
-    Sleep(9000);
+    Sleep(3000);
     system("cls");
     // asking the user to enter the character with which he wants to play the game.
     cout << "+=================================+" << endl;
@@ -682,16 +679,17 @@ void classic()
         system("cls");
         Sleep(900);
         gotoxy(0, 0);
-        cout << "+=================================+" << endl;
+        /*cout << "+=================================+" << endl;
         cout << "|       Health Bar = " << superman.health << "         |" << endl;
         cout << "|       current score = " << score << "         |" << endl;
-        cout << "+=================================+" << endl;
+        cout << "+=================================+" << endl;*/
 
         // moving the cursor on the top to display the score on the right top most corner of the console.
 
         vector<vector<char>> maze = generateMaze(mazeRows, mazeCols);
         gotoxy(1, 4);
         displayMaze(maze);
+        displayDialogueBox();
         movePlayer(superman.x, superman.y, superman.player);
         // incresing the score by 20 when the user clears a maze.
         score += 20;
