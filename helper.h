@@ -10,11 +10,30 @@ void gotoxy(int x, int y)
     coord.Y = y;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
+ 
 void changeSystemColor(string bg = theme.background, string fg = theme.foreground)
 {
     string command = "color " + bg + fg;
     const char *commandCStr = command.c_str();
     system(commandCStr);
+}
+void animateText(string sentence)
+{
+    for (int j = 0; j < sentence.length(); j++)
+    {
+        // skip the text if enter is pressed during the animation, put changes here
+        Sleep(20);
+        if ((GetAsyncKeyState(VK_RETURN) & 0x8000) && j > 2)
+        {
+            for (int k = j; k < sentence.length(); k++)
+            {
+                cout << sentence[k];
+            }
+            Sleep(300);
+            break;
+        }
+        cout << sentence[j];
+    }
 }
 void cleanDialogueBox()
 {
@@ -123,7 +142,6 @@ int getASCIIAtPosition(int x, int y)
 }
 void loadingbar()
 {
-    // system("color e0");
     system("cls");
     printf("\e[?251");
 

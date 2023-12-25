@@ -47,6 +47,11 @@ int dialogueBoxWidth = 40;
 int dialogueBoxHeight = 2 * mazeRows;
 string username; // making a global variable to ask for the name of the user.
 
+bool backToMainMenu = false;
+
+char TAB = '\t';
+char ESCAPE = 27;
+
 struct Position
 {
 	int x;
@@ -116,7 +121,7 @@ struct Theme
 Position dialogueBoxStart(90, 5);
 Position mazeStart(5, 5);
 Player superman(mazeStart.x + 1, mazeStart.y + 1, 'a', 100, false);
-Theme theme("7","0");
+Theme theme("7", "0");
 
 Riddle riddles[10] = {
 	Riddle("What has keys but can't open locks?", {"A. piano", "B. keyboard", "C. typewriter", "D. computer"}, 'A'),
