@@ -71,7 +71,7 @@ void game()
 			// 	string modeOptions[3] = { "Classic", "Storyline", "Timetrial" };
 			 
 			response = chooseMode();
-			
+			cout << response;
 			switch (response)
 			{
 			case 0:
@@ -83,8 +83,6 @@ void game()
 			case 2:
 				timetrail();
 				break;
-			case 3:
-				mainMenu();
 			}
 		}
 		catch (const std::runtime_error& e)
